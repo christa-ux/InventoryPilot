@@ -38,7 +38,13 @@ DB: Relational, using mysql
 
 ## Societal Risks
 
+
 ## Diversity Statement
+Diversity is essential to innovation, especially in the field of software development. Technology shapes our daily lives, and when teams (such as ours) include individuals from varied backgrounds, perspectives, and experiences, we can design solutions that are more equitable and relevant for everyone. Our goal is to contribute to a tech culture where diversity is not only valued but actively nurtured. We believe inclusion fuels creativity and problem-solving.
+
+Creating an environment of diversity and inclusion amongst the members of our own team positively impacts how we build software, by reducing biases that may negatively impact how different users interact with our software.
+
+We will work to ensure that our projects are inclusive and accessible to a diverse range of users. We will work continuously to foster a team culture where every team member feels respected and empowered.
 
 ## [Concept Fixtures International](https://www.conceptfixtures.com/en/home/)
 
