@@ -36,10 +36,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 React (Vite)
 *justification:* It is lightweight and fast. As one of the most widely-used JavaScript libraries, React has an extensive ecosystem of libraries, tools, and resources. This support makes it easy to find solutions and access reliable libraries. React uses a declarative syntax, making code predictable and easy to debug. React’s component-based architecture enables modular development, making code reusable, maintainable, and easier to test. This approach also encourages consistent UI patterns across the application.
 **Backend**
+
 Django
+
 *justification:* The main reason we chose Djano is because Django’s Python foundation means it integrates smoothly with popular AI and machine learning libraries like TensorFlow, PyTorch, and scikit-learn. This makes it easy to integrate pre-trained models, manage data pipelines, and run AI tasks. Django provides many built-in features like authentication, ORM (Object-Relational Mapping), form handling, and an admin interface, reducing development time and allowing teams to focus on application-specific functionality. Django offers an out-of-the-box solution for routing, middleware, session handling, and request-response management.
+
 **Database**
+
 Relational, using MySql
+
 *justification:* Our team members were most familiar with relational databases in comparison to other options such as non-relational databases. This was one of the main reasons we chose to use a relational database. We were mainly deciding between PostGreSQL and MySQL, and went with MySQl in the end due to the majority of team members being more familiar with it.
 
 ## Societal Risks
