@@ -33,7 +33,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## Justification of Stack
 **Frontend**
+
 React (Vite)
+
 *justification:* It is lightweight and fast. As one of the most widely-used JavaScript libraries, React has an extensive ecosystem of libraries, tools, and resources. This support makes it easy to find solutions and access reliable libraries. React uses a declarative syntax, making code predictable and easy to debug. React’s component-based architecture enables modular development, making code reusable, maintainable, and easier to test. This approach also encourages consistent UI patterns across the application.
 
 **Backend**
