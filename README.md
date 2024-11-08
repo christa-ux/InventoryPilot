@@ -37,7 +37,9 @@ Backend: Django bc AI AI AI AI integration
 DB: Relational, using mysql
 
 ## Societal Risks
+Autonomous decision making of a software is a potential societal risk. As more software makes decisions autonomously (e.g., in self-driving cars or healthcare diagnostics), there are ethical questions about accountability, transparency, and the potential for harmful mistakes. We aim to mitigate this risk by involving human interference at any crucial steps of decision making processes, with the use of machine learning and AI ideally limited to providing suggestions.
 
+Automation may also cause job loss. As software automates tasks across industries, many jobs may be eliminated, potentially leading to widespread unemployment and economic disruption, especially for roles in sectors like manufacturing, retail, and transportation. Seeing as our software touches the manufacturing sector we need to be particularily aware of this risk. For the scope of this project, we do not predict our software would cause job loss since it will focus on facilitating the existing jobs of the employees as CSF (in particular management), rather than completely replacing roles.
 
 ## Diversity Statement
 Diversity is essential to innovation, especially in the field of software development. Technology shapes our daily lives, and when teams (such as ours) include individuals from varied backgrounds, perspectives, and experiences, we can design solutions that are more equitable and relevant for everyone. Our goal is to contribute to a tech culture where diversity is not only valued but actively nurtured. We believe inclusion fuels creativity and problem-solving.
