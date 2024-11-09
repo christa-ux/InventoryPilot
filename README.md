@@ -2,25 +2,43 @@
 
 ## Team Members
 
-Andy Sun (ID: 40192040)
+**Andy Sun (ID: 40192040)** || Github ID: Irisvella || Email: Andysunham@gmail.com
 
-Christa abou-Arraje (ID: 40226631)
+Christa abou-Arraje (ID: 40226631) || Github ID: christa-ux || Email: christa.arraj@gmail.com
 
-Fatoumata Binta Barry (ID: 40213443)
+Fatoumata Binta Barry (ID: 40213443) || Github ID: Fatoumatabintabarry  || Email: bintabarry2002@yahoo.ca
 
-Flora Avakian (ID: 40158192)
+Flora Avakian (ID: 40158192) || Github ID: flo351  || Email: flora.avakian@yahoo.ca
 
-Inas Fawzi (ID: 40208675)
+Inas Fawzi (ID: 40208675) || Github ID: inas-fawzi || Email: inasfawzi24@gmail.com
 
-Megan Coscia (ID: 40214186)
+Megan Coscia (ID: 40214186) || Github ID: m-coscia || Email: meg.coscia@gmail.com
 
-Nour Hassoun (ID: 40233077)
+Nour Hassoun (ID: 40233077) || Github ID: iluvpesto  || Email: n_hassoun3@hotmail.com
 
-Sarah Abellard (ID: 40184667)
+Sarah Abellard (ID: 40184667) || Github ID: sarahabellard  || Email: sarahzinea@gmail.com
 
-Suha Abubakr (ID: 40120785)
+Suha Abubakr (ID: 40120785) || Github ID: suha-ab || Email: abubakr.suha@gmail.com
 
-Yousef Enein (ID: 40115494)
+Yousef Enein (ID: 40115494) || Github ID: yousefenein  || Email: yousefenein@outlook.com
+
+## Developper getting started guide
+# Prerequisites
+- Python 3.10 or later
+- Node.js 16.x or later
+
+# For backend
+- cd WarehousePilot_app\backend
+- pip install -r requirements.txt
+- create the .env file and add the environment variables
+- python manage.py migrate
+- To run the server: python manage.py runserver
+
+# For frontend
+- cd WarehousePilot_app\frontend
+- npm run dev
+- control click on the localhost to open the webpage 
+
 
 ## MIT License
 Copyright (c) <2024> <Andy Sun, Christa abou-Arraje, Fatoumata Binta Barry, Flora Avakian, Inas Fawzi, Megan Coscia, Nour Hassoun, Sarah Abellard, Suha Abubakr, Yousef Enein>
@@ -46,9 +64,9 @@ Django
 
 **Database**
 
-Relational, using MySql
+Relational, using PostGreSQL
 
-*justification:* Our team members were most familiar with relational databases in comparison to other options such as non-relational databases. This was one of the main reasons we chose to use a relational database. We were mainly deciding between PostGreSQL and MySQL, and went with MySQl in the end due to the majority of team members being more familiar with it.
+*justification:* Our team members were most familiar with relational databases in comparison to other options such as non-relational databases. This was one of the main reasons we chose to use a relational database. We were mainly deciding between PostGreSQL and MySQL, and went with PostGreSQL in the end due to the majority of team members being more familiar with it.
 
 ## Societal Risks
 Autonomous decision making of a software is a potential societal risk. As more software makes decisions autonomously (e.g., in self-driving cars or healthcare diagnostics), there are ethical questions about accountability, transparency, and the potential for harmful mistakes. We aim to mitigate this risk by involving human interference at any crucial steps of decision making processes, with the use of machine learning and AI ideally limited to providing suggestions.
