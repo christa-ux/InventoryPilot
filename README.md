@@ -22,22 +22,24 @@ Suha Abubakr (ID: 40120785) || Github ID: suha-ab || Email: abubakr.suha@gmail.c
 
 Yousef Enein (ID: 40115494) || Github ID: yousefenein  || Email: yousefenein@outlook.com
 
-## Developper getting started guide
-# Prerequisites
+## Setup Guide
+### Prerequisites
 - Python 3.10 or later
 - Node.js 16.x or later
 
-# For backend
-- cd WarehousePilot_app\backend
-- pip install -r requirements.txt
-- create the .env file and add the environment variables
-- python manage.py migrate
-- To run the server: python manage.py runserver
+<ins>Note:</ins> To run the backend and frontend, you should run two shells simultaneously. The first shell is for the backend and runs python. The second shell is for the frontend and runs node.
 
-# For frontend
-- cd WarehousePilot_app\frontend
-- npm run dev
-- control click on the localhost to open the webpage 
+### To run the backend
+1. cd WarehousePilot_app\backend
+2. pip install -r requirements.txt
+3. create the .env file and add the environment variables
+4. python manage.py migrate
+5. To run the server: python manage.py runserver
+
+### For frontend
+1. cd WarehousePilot_app\frontend
+2. npm run dev
+3. control click on the localhost to open the webpage 
 
 
 ## MIT License
