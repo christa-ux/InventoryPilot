@@ -1,0 +1,25 @@
+<div>
+    <h3>All Staff</h3>
+</div>
+<table>
+    <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Staff ID</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Designation</th>
+        <th>Actions</th>
+    </tr>
+{% for staff in staff_list %}
+   <tr>
+        <td>{{ staff.first_name }}</td>
+        <td>{{ staff.last_name }}</td>
+        <td>{{ staff.staff_id }}</td>
+        <td>{{ staff.email }}</td>
+        <td>{{ staff.role }}</td>
+        <td>{{ staff.designation }}</td>
+   </tr> 
+{% endfor %}
+
+</table>
