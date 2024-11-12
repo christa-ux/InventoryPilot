@@ -40,7 +40,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
 #    'django.contrib.admin',
     'django.contrib.auth',
-   'django.contrib.contenttypes',
+    'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'auth_app',
     'rest_framework_simplejwt',
-    "admin_dashboard"
+    "admin_dashboard",
+    "users"
 ]
 
 MIDDLEWARE = [
