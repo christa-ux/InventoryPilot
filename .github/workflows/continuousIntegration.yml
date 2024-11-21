@@ -28,40 +28,41 @@ jobs:
           --health-retries=5
 
     steps:
-      # Step 1: Check out the repository
+      # Step 1: Check out repository
       - name: Check out repository
         uses: actions/checkout@v3
 
-      # Step 2: Set up Python and Install Backend Dependencies
+      # Step 2: Set up Python
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
-          python-version: '3.9'
+          python-version: '3.11'  # Updated Python version
 
+      # Step 3: Install backend dependencies
       - name: Install backend dependencies
         working-directory: WarehousePilot_app/backend
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Step 3: Set up Node.js and Install Frontend Dependencies
+      # Step 4: Set up Node.js and install frontend dependencies
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'  # Adjust this to the Node.js version your frontend requires
+          node-version: '18'  # Match your Node.js version
 
       - name: Install frontend dependencies
         working-directory: WarehousePilot_app/frontend
         run: |
           npm install
 
-      # Step 4: Build the React Frontend
+      # Step 5: Build frontend
       - name: Build frontend
         working-directory: WarehousePilot_app/frontend
         run: |
           npm run build
 
-      # Step 5: Run Backend Migrations
+      # Step 6: Run backend migrations
       - name: Run migrations
         working-directory: WarehousePilot_app/backend
         env:
@@ -69,15 +70,14 @@ jobs:
         run: |
           python manage.py migrate
 
-      # Optional: Run Backend Tests
+      # Optional: Run backend tests
       - name: Run backend tests
         working-directory: WarehousePilot_app/backend
         run: |
           python manage.py test
 
-      # Optional: Run Frontend Tests
+      # Optional: Run frontend tests
       - name: Run frontend tests
         working-directory: WarehousePilot_app/frontend
         run: |
           npm test
-
