@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
     services:
@@ -19,76 +19,63 @@ jobs:
           - 5432:5432
         env:
           POSTGRES_USER: postgres.wctpncuvrrotnnzsrroc
-
           POSTGRES_PASSWORD: BsuKwx5pjWPJ8E8d
           POSTGRES_DB: postgres
         options: >-
-          --health-cmd "pg_isready -U testuser -d testdb"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     steps:
-    # 1. Check out the code
-    - name: Checkout code
-      uses: actions/checkout@v3
+      # Step 1: Check out the repository
+      - name: Check out repository
+        uses: actions/checkout@v3
 
-    # 2. Set up Python for Django
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
+      # Step 2: Set up Python and Install Backend Dependencies
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
 
-    # 3. Install backend dependencies
-    - name: Install Django dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+      - name: Install backend dependencies
+        working-directory: back-end
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-    # 4. Wait for PostgreSQL to be ready
-    - name: Wait for PostgreSQL to be ready
-      run: |
-        until pg_isready -h 127.0.0.1 -U testuser -d testdb; do
-          echo "Waiting for PostgreSQL...";
-          sleep 1;
-        done
+      # Step 3: Set up Node.js and Install Frontend Dependencies
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' # Specify your Node.js version
 
-    # 5. Run Django migrations
-    - name: Run migrations
-      env:
-        DATABASE_URL: postgres://postgres.wctpncuvrrotnnzsrroc:BsuKwx5pjWPJ8E8d@aws-0-us-east-1.pooler.supabase.com:6543/postgres
+      - name: Install frontend dependencies
+        working-directory: front-end
+        run: |
+          npm install
 
-      run: |
-        python manage.py migrate
+      # Step 4: Build the React Frontend
+      - name: Build frontend
+        working-directory: front-end
+        run: |
+          npm run build
 
-    # 6. Run Django tests
-    - name: Run Django tests
-      env:
-        DATABASE_URL: postgres://postgres.wctpncuvrrotnnzsrroc:BsuKwx5pjWPJ8E8d@aws-0-us-east-1.pooler.supabase.com:6543/postgres
+      # Step 5: Run Backend Migrations
+      - name: Run migrations
+        working-directory: back-end
+        env:
+          DATABASE_URL: postgres://postgres.wctpncuvrrotnnzsrroc:BsuKwx5pjWPJ8E8d@aws-0-us-east-1.pooler.supabase.com:6543/postgres
+        run: |
+          python manage.py migrate
 
-      run: |
-        python manage.py test
+      # Step 6: Run Backend and Frontend Tests (Optional)
+      - name: Run backend tests
+        working-directory: back-end
+        run: |
+          python manage.py test
 
-    # 7. Set up Node.js for React
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-
-    # 8. Install frontend dependencies
-    - name: Install React dependencies
-      working-directory: frontend
-      run: |
-        npm install
-
-    # 9. Run React tests
-    - name: Run React tests
-      working-directory: frontend
-      run: |
-        npm test -- --watchAll=false
-
-    # 10. Build React for production
-    - name: Build React app
-      working-directory: frontend
-      run: |
-        npm run build
+      - name: Run frontend tests
+        working-directory: front-end
+        run: |
+          npm test
