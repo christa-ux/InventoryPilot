@@ -39,7 +39,7 @@ jobs:
           python-version: '3.9'
 
       - name: Install backend dependencies
-        working-directory: back-end
+        working-directory: WarehousePilot_app/backend
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
@@ -48,34 +48,36 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18' # Specify your Node.js version
+          node-version: '18'  # Adjust this to the Node.js version your frontend requires
 
       - name: Install frontend dependencies
-        working-directory: front-end
+        working-directory: WarehousePilot_app/frontend
         run: |
           npm install
 
       # Step 4: Build the React Frontend
       - name: Build frontend
-        working-directory: front-end
+        working-directory: WarehousePilot_app/frontend
         run: |
           npm run build
 
       # Step 5: Run Backend Migrations
       - name: Run migrations
-        working-directory: back-end
+        working-directory: WarehousePilot_app/backend
         env:
           DATABASE_URL: postgres://postgres.wctpncuvrrotnnzsrroc:BsuKwx5pjWPJ8E8d@aws-0-us-east-1.pooler.supabase.com:6543/postgres
         run: |
           python manage.py migrate
 
-      # Step 6: Run Backend and Frontend Tests (Optional)
+      # Optional: Run Backend Tests
       - name: Run backend tests
-        working-directory: back-end
+        working-directory: WarehousePilot_app/backend
         run: |
           python manage.py test
 
+      # Optional: Run Frontend Tests
       - name: Run frontend tests
-        working-directory: front-end
+        working-directory: WarehousePilot_app/frontend
         run: |
           npm test
+
