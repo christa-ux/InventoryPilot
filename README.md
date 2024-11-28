@@ -22,6 +22,8 @@ Suha Abubakr (ID: 40120785) || Github ID: suha-ab || Email: abubakr.suha@gmail.c
 
 Yousef Enein (ID: 40115494) || Github ID: yousefenein  || Email: yousefenein@outlook.com
 
+James Bitharas (ID: 26637175 ) || Github ID: strikeyamato || Email: jamesbitharas@gmail.com
+
 ## Setup Guide
 ### Prerequisites
 - Python 3.10 or later
