@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@heroicons/react": "^2.2.0",
+    "@nextui-org/react": "^2.4.8",
+    "chart.js": "^4.4.7",
+    "framer-motion": "^11.12.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.15",
+    "vite": "^6.0.1"
+  }
+}
