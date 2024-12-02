@@ -39,9 +39,11 @@ James Bitharas (ID: 26637175 ) || Github ID: strikeyamato || Email: jamesbithara
 5. To run the server: python manage.py runserver
 
 ### For frontend
-1. cd WarehousePilot_app\frontend
-2. npm run dev
-3. control click on the localhost to open the webpage 
+1. cd WarehousePilot_app
+2. cd frontend
+3. npm install (to download front-end dependencies: nextUI, reactJS, TailwindCSS, chartJS, heroicon, vite)
+5. npm run dev
+6. control click on the localhost to open the webpage 
 
 
 ## MIT License
