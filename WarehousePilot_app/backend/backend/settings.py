@@ -50,7 +50,10 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     "admin_dashboard",
     "orders.apps.OrdersConfig",
-    "parts.apps.PartsConfig"
+    "parts.apps.PartsConfig",
+    "manufacturingLists.apps.ManufacturinglistsConfig",
+    "inventory.apps.InventoryConfig",
+    "reports.apps.ReportsConfig"
 ]
 
 MIDDLEWARE = [
