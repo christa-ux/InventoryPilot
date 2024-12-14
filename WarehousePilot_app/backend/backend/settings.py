@@ -48,7 +48,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'auth_app',
     'rest_framework_simplejwt',
-    "admin_dashboard"
+    "admin_dashboard",
+    "orders.apps.OrdersConfig",
+    "parts.apps.PartsConfig"
 ]
 
 MIDDLEWARE = [
