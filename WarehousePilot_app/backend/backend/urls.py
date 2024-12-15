@@ -22,4 +22,10 @@ urlpatterns = [
     path('auth/', include('auth_app.urls')),
     path('admin_dashboard/', include('admin_dashboard.urls')),
     path('manager_dashboard/', include('manager_dashboard.urls'))
+    path('orders/', include('orders.urls')),
+    path('parts/', include('parts.urls')),
+    path('manufacturingLists/', include('manufacturingLists.urls')),
+    path('inventory/', include('inventory.urls')),
+    path('reports/', include('reports.urls'))
+
 ]
