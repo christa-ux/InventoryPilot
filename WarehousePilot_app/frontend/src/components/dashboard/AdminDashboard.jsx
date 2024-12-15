@@ -1,3 +1,6 @@
+// the main page of the admin dashboard. The first thing they see when logging in.
+// route: /admin_dashboard
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';

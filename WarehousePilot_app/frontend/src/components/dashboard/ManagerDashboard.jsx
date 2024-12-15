@@ -1,3 +1,6 @@
+// the "main page" of the managerdashboard. First thing they see when logging in.
+// route: /manager_dashboard
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -45,6 +48,7 @@ function ManagerDashboard() {
       ) : (
         <p>Error</p>
       )}
+    <button type='button' onClick={() => navigate('/account_management')}>Account Management</button>
     <button type='button' onClick={handleLogout}>Log Out</button>
     </div>
   );

@@ -1,3 +1,7 @@
+// First screen of the application
+// route: / 
+// Logs in and redirects to their dashboard according to their role. 
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
