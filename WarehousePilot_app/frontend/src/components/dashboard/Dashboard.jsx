@@ -13,7 +13,7 @@ function Dashboard() {
   return (
     <div>
       <h2>Dashboard</h2>
-      <p>Welcome to the dashboard!</p>
+      <p>This is the default dashboard. Do you have a role?</p>
       <button type='button' onClick={handleLogout}>Log Out</button>
     </div>
   );
