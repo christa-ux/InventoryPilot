@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './authentication.css';
@@ -6,14 +6,39 @@ import './authentication.css';
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const rememberedUsername = localStorage.getItem('rememberedUsername');
+    if (rememberedUsername) {
+      setUsername(rememberedUsername);
+      setRememberMe(true);
+    }
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://127.0.0.1:8000/auth/login/', { username, password });
-      localStorage.setItem('token', response.data.access);
-      navigate('/dashboard');
+      console.log('Login response:', response.data); // Log the entire response
+      const { access, user } = response.data; // Adjust this based on the actual structure
+      console.log('User:', user); // Log the user object to see its structure
+      localStorage.setItem('token', access);
+      localStorage.setItem('user', JSON.stringify(user));
+      if (rememberMe) {
+        localStorage.setItem('rememberedUsername', username);
+      } else {
+        localStorage.removeItem('rememberedUsername');
+      }
+      // Redirect based on role
+      if (user.role === 'admin') {
+        navigate('/admin_dashboard');
+      } else if (user.role === 'manager') {
+        navigate('/manager_dashboard');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (error) {
       console.error('Login failed:', error);
       alert('Invalid credentials, please try again.');
@@ -35,7 +60,7 @@ function Login() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              placeholder="Enter email address"
+              placeholder="Enter Username"
               className="form-input"
             />
           </label>
@@ -52,7 +77,11 @@ function Login() {
           </label>
           <div className="form-options">
             <label>
-              <input type="checkbox" /> Remember me
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+              /> Remember me
             </label>
             <a href="#" className="forgot-password">I forgot my password</a>
           </div>
