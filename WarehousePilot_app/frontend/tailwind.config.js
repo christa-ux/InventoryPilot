@@ -1,13 +1,11 @@
-
-import {nextui} from '@nextui-org/theme';
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./public/index.html", // Include all relevant paths
   ],
   theme: {
     extend: {},
   },
-  plugins: [nextui()],
-}
-
+  plugins: [],
+};

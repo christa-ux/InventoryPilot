@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import Layout from '../layout';
 function Dashboard() {
   const navigate = useNavigate();
 
@@ -12,12 +12,10 @@ function Dashboard() {
 
   return (
     <div>
-      <h2>Dashboard</h2>
-      <p>Welcome to the dashboard!</p>
-      
-    
-
-      <button type='button' onClick={handleLogout}>Log Out</button>
+      <Layout/>
+      {/* Update with metrics cards 
+       */}
+<h1> hello </h1>
     </div>
   );
 }
