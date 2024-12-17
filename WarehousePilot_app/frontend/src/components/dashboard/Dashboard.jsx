@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Navbar from "../dashboard_sidebar/navbar";
+import Header from "../dashboard_sidebar/Header";
 import Sidebar from "../dashboard_sidebar/Sidebar";
 import { useNavigate } from 'react-router-dom';
 const Dashboard = () => {
@@ -25,7 +25,7 @@ const Dashboard = () => {
       {/* Main Content */}
       <div className="flex-1 sm:ml-64">
         {/* Navbar */}
-        <Navbar toggleSidebar={toggleSidebar} />
+        <Header toggleSidebar={toggleSidebar} />
 
         {/* Page Content */}
         <main className="p-4 mt-16 bg-gray-100 min-h-screen">

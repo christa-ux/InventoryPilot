@@ -4,6 +4,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Dashboard from './Dashboard';
+
 
 function AccountManagement() {
     const [userData, setUserData] = useState(null);
@@ -34,26 +36,28 @@ function AccountManagement() {
   
 
     return (
-    <div>
-      <h1>Account Management Page</h1>
-      <p>This is the overview page.</p>
-      {userData ? (
-        <div>
-          <p>Username: {userData.username}</p>
-          <p>Email: {userData.email}</p>
-          <p>Role: {userData.role}</p>
-          <p>First Name: {userData.first_name}</p>
-          <p>Last Name: {userData.last_name}</p>
-          <p>Department: {userData.department}</p>
-        </div>
-      ) : (
-        <p>Error</p>
-      )}
-    <button type='button' onClick={() => navigate('/password_modification')}>Change Password</button>
-    <button type='button' onClick={() => navigate('/manager_dashboard')}>Dashboard</button>
-    <button type='button' onClick={handleLogout}>Log Out</button>
+      <>
+      <Dashboard />
+      <div>
+        <h1>Account Management Page</h1>
+        <p>This is the overview page.</p>
+        {userData ? (
+          <div>
+            <p>Username: {userData.username}</p>
+            <p>Email: {userData.email}</p>
+            <p>Role: {userData.role}</p>
+            <p>First Name: {userData.first_name}</p>
+            <p>Last Name: {userData.last_name}</p>
+            <p>Department: {userData.department}</p>
+          </div>
+        ) : (
+          <p>Error</p>
+        )}
+        <button type='button' onClick={() => navigate('/password_modification')}>Change Password</button>
+        <button type='button' onClick={() => navigate('/manager_dashboard')}>Dashboard</button>
+        <button type='button' onClick={handleLogout}>Log Out</button>
 
-    </div>
+      </div></>
   );
 }
 
