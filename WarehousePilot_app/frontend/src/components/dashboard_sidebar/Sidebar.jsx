@@ -1,5 +1,6 @@
 import React from "react";
 import Avatar from "./Avatar";
+import { Link } from "react-router-dom";
 
 const Sidebar = ({ isOpen }) => {
   return (
@@ -18,8 +19,8 @@ const Sidebar = ({ isOpen }) => {
         
         <ul className="space-y-2 font-medium text-base">
           <li>
-            <a
-              href="#"
+            <Link
+              to="/kpi"
               className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             >
               <svg className="w-5 h-5 mr-2 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
@@ -27,11 +28,12 @@ const Sidebar = ({ isOpen }) => {
                   <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z"/>
                </svg>
               Dashboard
-            </a>
+              </Link>
           </li>
-          <li>
-            <a
-              href="#"
+            {/* KPI Button */}
+            <li>
+            <Link
+              to="/kpi"
               className="flex items-center p-2 text-gray-900 hover:bg-gray-100 rounded-lg dark:text-white dark:hover:bg-gray-700"
             >
                
@@ -39,7 +41,7 @@ const Sidebar = ({ isOpen }) => {
                   <path d="M7.958 19.393a7.7 7.7 0 0 1-6.715-3.439c-2.868-4.832 0-9.376.944-10.654l.091-.122a3.286 3.286 0 0 0 .765-3.288A1 1 0 0 1 4.6.8c.133.1.313.212.525.347A10.451 10.451 0 0 1 10.6 9.3c.5-1.06.772-2.213.8-3.385a1 1 0 0 1 1.592-.758c1.636 1.205 4.638 6.081 2.019 10.441a8.177 8.177 0 0 1-7.053 3.795Z"/>
                </svg>
               KPI
-            </a>
+            </Link>
           </li>
           <li>
             <a
