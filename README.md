@@ -47,7 +47,7 @@ James Bitharas (ID: 26637175 ) || Github ID: strikeyamato || Email: jamesbithara
 
 
 ## MIT License
-Copyright (c) <2024> <Andy Sun, Christa abou-Arraje, Fatoumata Binta Barry, Flora Avakian, Inas Fawzi, Megan Coscia, Nour Hassoun, Sarah Abellard, Suha Abubakr, Yousef Enein>
+Copyright (c) <2024> <Andy Sun, Christa abou-Arraje, Fatoumata Binta Barry, Flora Avakian, Inas Fawzi, Megan Coscia, Nour Hassoun, Sarah Abellard, Suha Abubakr, Yousef Enein, James Bitharas>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

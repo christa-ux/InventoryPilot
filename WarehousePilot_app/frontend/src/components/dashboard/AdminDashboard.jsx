@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Dashboard from './Dashboard';
 
 function AdminDashboard() {
   const [userData, setUserData] = useState(null);
@@ -34,6 +35,7 @@ function AdminDashboard() {
 
   return (
     <div>
+      <Dashboard />
       <h2>Admin Dashboard</h2>
       {userData ? (
         <div>
