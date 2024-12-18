@@ -3,7 +3,7 @@ import { useState } from "react";
 import Avatar from "./Avatar";
 
 
-const Header = ({ toggleSidebar }) => {
+const Header = ({ userData, toggleSidebar }) => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -48,10 +48,7 @@ const Header = ({ toggleSidebar }) => {
       </div>
       {/* Profile Section - Always Visible */}
       <div className="relative flex items-center mx-auto">
-        <Avatar />
-        
-            
-             
+        <Avatar userData={userData} />   
         </div>
     </nav>
   );
