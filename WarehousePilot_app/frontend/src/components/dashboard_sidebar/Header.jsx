@@ -1,9 +1,26 @@
 import React from "react";
+import { useState } from "react";
+import Avatar from "./Avatar";
+
 
 const Header = ({ toggleSidebar }) => {
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownOpen((prev) => !prev);
+  };
+
+  const closeDropdown = () => {
+    setDropdownOpen(false);
+  };
+
   return (
-    <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 shadow-md">
-      <div className="px-4 py-3 flex items-center justify-between">
+    <nav className="flex justify-start items-center flex-row fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 shadow-md">
+      {/* Sign Out Button: Always Visible */}
+      
+
+      <div className= "px-4 py-3 flex items-center mr-96  ">
         {/* Sidebar Toggle Button: Only Visible on Mobile */}
         <button
           onClick={toggleSidebar}
@@ -25,34 +42,17 @@ const Header = ({ toggleSidebar }) => {
         </button>
 
         {/* Logo */}
-        <a href="/" className="flex items-center">
+        <a href="/" className="items-center">
           <span className="text-xl font-semibold dark:text-white">Dashboard</span>
         </a>
-
-        {/* Sign Out Button: Always Visible */}
-        <div className="flex items-center">
-          <a
-            href="#"
-            className="flex items-center text-gray-900 hover:bg-gray-100 p-2 rounded-lg dark:text-white dark:hover:bg-gray-700"
-          >
-            <svg
-              className="w-5 h-5 mr-2 text-gray-500 dark:text-gray-400"
-              fill="none"
-              viewBox="0 0 18 16"
-              stroke="currentColor"
-              strokeWidth="2"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"
-              />
-            </svg>
-            <span className="whitespace-nowrap">Sign Out</span>
-          </a>
-        </div>
       </div>
+      {/* Profile Section - Always Visible */}
+      <div className="relative flex items-center mx-auto">
+        <Avatar />
+        
+            
+             
+        </div>
     </nav>
   );
 };

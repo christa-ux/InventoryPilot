@@ -31,11 +31,8 @@ const Dashboard = () => {
         <main className="p-4 mt-16 bg-gray-100 min-h-screen">
           <h1 className="text-2xl font-semibold">Welcome to the Dashboard</h1>
           <p className="mt-4 text-gray-700">
-            This is where your main content will go.
-            <h2>Dashboard</h2>   
-            <p>This is the default dashboard. Do you have a role?</p>
+            This is where your main content will go.This is the default dashboard. Do you have a role?</p>
             <button type='button' onClick={handleLogout}>Log Out</button>
-          </p>
         </main>
       </div>
     </div>
