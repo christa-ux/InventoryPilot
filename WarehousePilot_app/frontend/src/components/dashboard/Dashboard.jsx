@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../dashboard_sidebar/Header";
 import Sidebar from "../dashboard_sidebar/Sidebar";
 import { useNavigate } from 'react-router-dom';
+import KpiDashboard from "../dashboard/KpiDashboard";
 const Dashboard = () => {
 
     const navigate = useNavigate();
@@ -35,6 +36,7 @@ const Dashboard = () => {
             <h2>Dashboard</h2>   
             <p>This is the default dashboard. Do you have a role?</p>
             <button type='button' onClick={handleLogout}>Log Out</button>
+
           </p>
         </main>
       </div>
