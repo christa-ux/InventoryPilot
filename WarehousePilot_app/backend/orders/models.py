@@ -11,5 +11,6 @@ class OrderPart(models.Model):
     order_part_id = models.AutoField(primary_key = True)
     order_id = models.ForeignKey(Orders, on_delete=models.CASCADE)
     sku = models.ForeignKey(Part, on_delete=models.CASCADE)
+    sku_color = models.CharField(max_length=255)
     qty = models.IntegerField()
     status = models.BooleanField(null=True)
