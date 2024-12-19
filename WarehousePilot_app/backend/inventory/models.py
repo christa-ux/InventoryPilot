@@ -6,7 +6,7 @@ from auth_app.models import users
 
 class Inventory(models.Model):
     location = models.CharField(primary_key=True, max_length=255)
-    sku = models.ForeignKey(Part, on_delete=models.CASCADE)
+    sku_color = models.ForeignKey(Part, on_delete=models.CASCADE)
     qty = models.IntegerField()
     warehouse_number = models.IntegerField()
     amount_needed = models.IntegerField()
@@ -21,6 +21,6 @@ class InventoryPicklistItem(models.Model):
       picklist_item_id = models.AutoField(primary_key=True)
       picklist_id = models.ForeignKey(InventoryPicklist, on_delete=models.CASCADE)
       location = models.ForeignKey(Inventory, null=True, on_delete=models.SET_NULL)
-      sku = models.ForeignKey(Part, on_delete=models.CASCADE)
+      sku_color = models.ForeignKey(Part, on_delete=models.CASCADE)
       amount = models.IntegerField()
       status = models.BooleanField()
