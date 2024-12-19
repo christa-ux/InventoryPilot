@@ -16,9 +16,6 @@ function App() {
             element={route.element} 
           />
         ))}
-        
-        {/* Add KpiDashboard Route Manually */}
-        <Route path="/kpi" element={<KpiDashboard />} />
       </Routes>
     </Router>
   );
