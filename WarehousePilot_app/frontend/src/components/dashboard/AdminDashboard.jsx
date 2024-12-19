@@ -35,21 +35,7 @@ function AdminDashboard() {
 
   return (
     <div>
-      <Dashboard />
-      <h2>Admin Dashboard</h2>
-      {userData ? (
-        <div>
-          <p>Username: {userData.username}</p>
-          <p>Email: {userData.email}</p>
-          <p>Role: {userData.role}</p>
-          <p>First Name: {userData.first_name}</p>
-          <p>Last Name: {userData.last_name}</p>
-          <p>Department: {userData.department}</p>
-        </div>
-      ) : (
-        <p>Error</p>
-      )}
-      <button type='button' onClick={handleLogout}>Log Out</button>
+      <Dashboard userData={userData} />
     </div>
   );
 }

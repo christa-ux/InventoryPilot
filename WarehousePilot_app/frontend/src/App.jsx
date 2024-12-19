@@ -1,14 +1,14 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import routes from './components/routes';  
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import routes from "./components/routes";  
+import KpiDashboard from "./components/dashboard/KpiDashboard"; 
 
-
-// create your routes in /routes for your components and import them into routes/index.js
-
+// Main App Component
 function App() {
   return (
     <Router>
       <Routes>
+        {/* Map through predefined routes */}
         {routes.map((route, index) => (
           <Route 
             key={index} 

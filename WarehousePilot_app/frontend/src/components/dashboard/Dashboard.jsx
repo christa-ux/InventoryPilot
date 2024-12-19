@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import Header from "../dashboard_sidebar/Header";
 import Sidebar from "../dashboard_sidebar/Sidebar";
-import { useNavigate } from 'react-router-dom';
-const Dashboard = () => {
+import { useNavigate } from "react-router-dom";
 
-    const navigate = useNavigate();
+const Dashboard = ({ userData }) => {
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/');
+    localStorage.removeItem("token");
+    navigate("/");
   };
 
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -20,22 +20,40 @@ const Dashboard = () => {
   return (
     <div className="flex">
       {/* Sidebar */}
-      <Sidebar isOpen={isSidebarOpen} />
+      <Sidebar userData={userData} isOpen={isSidebarOpen} />
 
       {/* Main Content */}
       <div className="flex-1 sm:ml-64">
         {/* Navbar */}
-        <Header toggleSidebar={toggleSidebar} />
+        <Header userData={userData} toggleSidebar={toggleSidebar} />
 
         {/* Page Content */}
-        <main className="p-4 mt-16 bg-gray-100 min-h-screen">
-          <h1 className="text-2xl font-semibold">Welcome to the Dashboard</h1>
-          <p className="mt-4 text-gray-700">
-            This is where your main content will go.
-            <h2>Dashboard</h2>   
-            <p>This is the default dashboard. Do you have a role?</p>
-            <button type='button' onClick={handleLogout}>Log Out</button>
-          </p>
+        <main className="p-4 mt-16 bg-gray-100 ">
+          <h1 className="text-2xl font-semibold">This is the {userData?.role} dashboard</h1>
+          <h2>Welcome, {userData?.first_name || "User"}!</h2>
+
+          {userData ? (
+            <div>
+              <p>Username: {userData.username}</p>
+              <p>Email: {userData.email}</p>
+              <p>Role: {userData.role}</p>
+              <p>First Name: {userData.first_name}</p>
+              <p>Last Name: {userData.last_name}</p>
+              <p>Department: {userData.department}</p>
+            </div>
+          ) : (
+            <p>Error</p>
+          )}
+          <button type="button" onClick={() => navigate("/account_management")}>
+            Account Management
+          </button>
+          <button type="button" onClick={handleLogout}>
+            Log Out
+          </button>
+
+          {/* <p className="mt-4 text-gray-700">
+            This is where your main content will go.This is the default dashboard. Do you have a role?</p>
+            <button type='button' onClick={handleLogout}>Log Out</button> */}
         </main>
       </div>
     </div>
@@ -43,7 +61,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-
-
-
