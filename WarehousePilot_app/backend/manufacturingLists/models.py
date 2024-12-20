@@ -25,8 +25,7 @@ class ManufacturingListItem(models.Model):
     }
     manufacturing_list_item_id = models.AutoField(primary_key=True)
     manufacturing_list_id = models.ForeignKey(ManufacturingLists, on_delete=models.CASCADE)
-    sku = models.ForeignKey(Part, on_delete=models.CASCADE)
-    sku_color = models.CharField(max_length=255)
+    sku_color = models.ForeignKey(Part, on_delete=models.CASCADE)
     amount = models.IntegerField()
     manufacturing_process=models.CharField(null=True, max_length=25, choices=MANUFACTURING_PROCESSES)
     process_progress = models.CharField(null=True, max_length=25, choices=PROGRESS_STAGES)

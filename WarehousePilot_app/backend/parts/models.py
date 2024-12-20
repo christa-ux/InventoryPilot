@@ -2,7 +2,8 @@ from django.db import models
 
 # Create your models here.
 class Part(models.Model):
-    sku = models.CharField(max_length=255, primary_key=True)
+    sku_color = models.CharField(max_length=255, primary_key=True, default='default')
+    sku = models.CharField(null=True, max_length=255)
     old_sku = models.CharField(max_length=255, null=True)
     description = models.TextField(null=True)
     qty_per_box = models.IntegerField(null=True)
