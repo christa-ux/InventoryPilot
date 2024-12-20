@@ -1,17 +1,57 @@
-import React, { useState } from "react";
+import React from "react";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 
-const OrderFulfillmentRate = ({ data }) => {
-  const [timeframe, setTimeframe] = useState("24h");
+// Placeholder data for now
+const data = [
+  { time: "24 Hours", rate: 92 },
+  { time: "48 Hours", rate: 97 },
+  { time: "72 Hours", rate: 99 },
+];
 
+// Backend Integration Instructions:
+// Table: "orders_orders"
+// Columns:
+// - Use "estimated_duration" to calculate the fulfillment rate for different time frames (e.g., 24, 48, 72 hours).
+// - Use "status" to filter completed orders (e.g., "Completed" or equivalent status in the table).
+// Backend Logic:
+// - Query the "orders_orders" table to calculate the fulfillment rate for each time frame:
+//   Fulfillment Rate = (Number of Completed Orders within Time Frame / Total Orders within Time Frame) * 100
+// - Return the data in this format:
+//   [
+//     { time: "24 Hours", rate: 92 },
+//     { time: "48 Hours", rate: 97 },
+//     { time: "72 Hours", rate: 99 },
+//   ]
+
+const OrderFulfillmentRate = () => {
   return (
-    <div className="p-4 bg-white shadow-md rounded-lg">
-      <h2 className="text-lg font-semibold mb-4">Order Fulfillment Rate</h2>
-      <select className="border p-2 rounded mb-4" onChange={(e) => setTimeframe(e.target.value)}>
-        <option value="24h">24 Hours</option>
-        <option value="48h">48 Hours</option>
-        <option value="72h">72 Hours</option>
-      </select>
-      <p className="text-2xl font-bold">{data[timeframe]}%</p>
+    <div className="bg-white p-4 shadow-md rounded-lg flex flex-col items-center">
+      {/* Title */}
+      <h2 className="text-lg font-semibold mb-4 text-center">Order Fulfillment Rate</h2>
+
+      {/* Bar Chart */}
+      <div className="w-full overflow-hidden">
+        <BarChart
+          width={350} 
+          height={250} 
+          data={data}
+          margin={{ top: 10, right: 20, left: 10, bottom: 10 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis
+            dataKey="time"
+            label={{ value: "Time Frame", position: "insideBottom", offset: -5 }}
+          />
+          <YAxis
+            label={{ value: "Fulfillment Rate (%)", angle: -90, position: "insideLeft" }}
+            domain={[0, 100]} 
+          />
+           <br></br>
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="rate" fill="#8884d8" />
+        </BarChart>
+      </div>
     </div>
   );
 };
