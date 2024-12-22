@@ -2,6 +2,7 @@ import React from "react";
 import Avatar from "./Avatar";
 import { Link } from "react-router-dom";
 
+
 const Sidebar = ({ user , userData, isOpen }) => {
   const dashboardPath = user?.role === "admin" ? "/admin_dashboard" : "/manager_dashboard";
 
@@ -42,7 +43,7 @@ const Sidebar = ({ user , userData, isOpen }) => {
             {/* KPI Button */}
             <li>
             <Link
-              to={dashboardPath}
+              to={"/kpi"}
               className="flex items-center p-2 text-gray-900 hover:bg-gray-100 rounded-lg dark:text-white dark:hover:bg-gray-700"
             >
                
