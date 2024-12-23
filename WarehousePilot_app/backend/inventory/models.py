@@ -8,7 +8,7 @@ class Inventory(models.Model):
     location = models.CharField(primary_key=True, max_length=255)
     sku_color = models.ForeignKey(Part, on_delete=models.CASCADE)
     qty = models.IntegerField()
-    warehouse_number = models.IntegerField()
+    warehouse_number = models.CharField()
     amount_needed = models.IntegerField()
 
 class InventoryPicklist(models.Model):
