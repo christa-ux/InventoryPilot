@@ -5,11 +5,16 @@ from auth_app.models import users
 # Create your models here.
 
 class Inventory(models.Model):
-    location = models.CharField(primary_key=True, max_length=255)
+    inventory_id = models.AutoField(primary_key=True)
+    location = models.CharField(max_length=255)
     sku_color = models.ForeignKey(Part, on_delete=models.CASCADE)
     qty = models.IntegerField()
-    warehouse_number = models.IntegerField()
+    warehouse_number = models.CharField()
     amount_needed = models.IntegerField()
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['location', 'sku_color'], name='LocationSkuColorUniqueTogether')
+        ]
 
 class InventoryPicklist(models.Model):
     picklist_id = models.AutoField(primary_key=True)
