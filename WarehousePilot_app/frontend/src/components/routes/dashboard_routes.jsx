@@ -1,4 +1,4 @@
-import { Dashboard, ManagerDashboard, AdminDashboard, AccountManagement  } from '../dashboard';
+import { Dashboard, ManagerDashboard, AdminDashboard, AccountManagement, ChangePassword  } from '../dashboard';
 import Profile from '../dashboard/profile';
 import KpiDashboard from "../dashboard/KpiDashboard"
 
@@ -9,6 +9,7 @@ export const dashboard_routes = [
   { path: '/admin_dashboard', element: <AdminDashboard /> },
   { path: '/account_management', element: <AccountManagement /> },
   { path: '/profile', element: <Profile /> },
-  { path: '/kpi', element: <KpiDashboard /> }
+  { path: '/kpi', element: <KpiDashboard /> },
+  { path: '/change_password', element: <ChangePassword /> },
 
 ];
