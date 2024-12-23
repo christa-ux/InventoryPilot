@@ -35,6 +35,12 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
+<<<<<<< Updated upstream
     "vite": "^5.4.10"
+=======
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.16",
+    "vite": "^5.4.11"
+>>>>>>> Stashed changes
   }
 }
