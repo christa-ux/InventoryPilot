@@ -4,13 +4,17 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Dashboard from './Dashboard';
+import Sidebar from "../dashboard_sidebar/Sidebar";
+import Header from "../dashboard_sidebar/Header";
 
 
 function AccountManagement() {
     const [userData, setUserData] = useState(null);
     const navigate = useNavigate();
-  
+    const [isSidebarOpen, setSidebarOpen] = useState(false);
+    const toggleSidebar = () => {
+      setSidebarOpen(!isSidebarOpen);
+    };
   
     useEffect(() => {
       const fetchUserData = async () => {
@@ -36,9 +40,16 @@ function AccountManagement() {
   
 
     return (
-      <>
-      <Dashboard />
-      <div>
+      <div className="flex">
+        {/* Sidebar */}
+        <Sidebar userData={userData} isOpen={isSidebarOpen} />
+
+        {/* Main Content */}
+        <div className="flex-1 sm:ml-64">
+          {/* Navbar */}
+          <Header userData={userData} toggleSidebar={toggleSidebar} />
+          {/* Page Content */}
+          <main className="p-4 mt-16 bg-gray-100 ">
         <h1>Account Management Page</h1>
         <p>This is the overview page.</p>
         {userData ? (
@@ -53,11 +64,12 @@ function AccountManagement() {
         ) : (
           <p>Error</p>
         )}
-        <button type='button' onClick={() => navigate('/password_modification')}>Change Password</button>
-        <button type='button' onClick={() => navigate('/manager_dashboard')}>Dashboard</button>
-        <button type='button' onClick={handleLogout}>Log Out</button>
-
-      </div></>
+        <button type='button' 
+        className="px-4 py-2 mt-4 text-white bg-blue-500 rounded hover:bg-blue-700"   // temporary style ? 
+        onClick={() => navigate('/change_password')}>Change Password</button>
+        </main>
+      </div>
+    </div>
   );
 }
 
