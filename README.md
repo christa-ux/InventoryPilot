@@ -95,3 +95,23 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
+
+## Wiki table of contents
+- [Collection of All Meeting Minutes](Collection-of-All-Meeting-Minutes)
+- [Documentation of Stakeholder Meetings](Documentation-of-Stakeholder-Meetings)
+- [Risks](Risks)
+- [Legal and Ethical Issues](Legal-and-Ethical-Issues)
+- [Economic Impact](Economic-Impact)
+- [Personas](Personas)
+- [Diversity statement](Diversity-statement)
+- [Overall Architecture and Class Diagrams](OverallArchitectureandClassDiagrams)
+- [Infrastructure and tools](Infrastructureandtools)
+- [Name Conventions](NameConventions)
+- [Testing Plan and Continuous Integration](TestingPlanandContinuousIntegration)
+- [Security](Security)
+- [Performance](Performance)
+- [Deployment Plan and Infrastructure](DeploymentPlanandInfrastructure)
+- [Next Iteration Plan and Rollout Strategy](https://github.com/christa-ux/InventoryPilot/wiki/Next-Iteration-Plan-and-Rollout-Strategy)
+
+
+
