@@ -13,7 +13,7 @@ def home(request):
 
 # Manage Users: Retrieve all non-admin users of the platform
 class ManageUsersView(APIView):
-    def get(self, request):
+    def get(self):
         try:
             staffData = users.objects.exclude(role='admin')
             serializer = StaffSerializer(staffData, many=True)
