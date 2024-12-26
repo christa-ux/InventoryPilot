@@ -46,10 +46,11 @@ const Header = ({ userData, toggleSidebar }) => {
           <span className="text-xl font-semibold dark:text-white">Dashboard</span>
         </a>
       </div>
-      {/* Profile Section - Always Visible */}
-      <div className="relative flex items-center mx-auto">
+     
+      {!dropdownOpen &&(<div className="relative flex items-center mx-auto">
         <Avatar userData={userData} />   
-        </div>
+        </div>)
+}
     </nav>
   );
 };
