@@ -1,7 +1,7 @@
 from django.urls import path
 
-from . import views
+from .views import InventoryView
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("inventorypreview/", InventoryView.as_view(), name="inventorypreview"),
 ]
