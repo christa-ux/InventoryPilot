@@ -12,6 +12,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
+  const [shake, setShake] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,7 +28,7 @@ function Login() {
     try {
       const response = await axios.post('http://127.0.0.1:8000/auth/login/', { username, password });
       console.log('Login response:', response.data); // Log the entire response
-      const { access, user } = response.data; // Adjust this based on the actual structure
+      const { access, user } = response.data; 
       console.log('User:', user); // Log the user object to see its structure
       localStorage.setItem('token', access);
       localStorage.setItem('user', JSON.stringify(user));
@@ -47,6 +48,8 @@ function Login() {
     } catch (error) {
       console.error('Login failed:', error);
       setError('Login failed. Please try again.');
+      setShake(true);
+      setTimeout(() => setShake(false), 500);
     }
   };
 
@@ -57,8 +60,7 @@ function Login() {
           <img src="csf-logo-footer.png" alt="Company Logo" className="logo" />
           <h1>Sign In</h1>
         </div>
-        <form onSubmit={handleLogin} className="login-form">
-          <label className="form-label">
+        <form onSubmit={handleLogin} className={`login-form ${shake ? 'shake' : ''}`}>          <label className="form-label">
             Username:
             <input
               type="text"
@@ -91,7 +93,7 @@ function Login() {
             <a href="#" className="forgot-password">I forgot my password</a>
           </div>
           <button type="submit" className="login-button">Sign In</button>
-          {error && <p data-testid="login-error">{error}</p>}
+          {error && <p className="error-message" data-testid="login-error">{error}</p>}
         </form>
       </div>
       <div className="login-right">
