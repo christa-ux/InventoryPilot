@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { ChevronDownIcon } from "@heroicons/react/24/solid"; // or /16, depending on your setup
+import { useNavigate } from "react-router-dom";
 
 export default function AddUsers() {
   const [username, setUsername] = useState("");
@@ -12,8 +13,31 @@ export default function AddUsers() {
   const [department, setDepartment] = useState("");
   const [role, setRole] = useState("");
   const [dob, setDob] = useState(new Date());
+  const navigate = useNavigate();
 
-  const typesOfUsers = ["Admin", "Manager", "Staff"];
+  const typesOfUsers = ["Admin", "Manager", "Staff", "QA"];
+
+  // Check that the user is an admin (only admins should be able to navigate to this page and add users)
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if(user) {
+      const parsedUser = JSON.parse(user);
+      if(parsedUser.role != 'admin') {
+        // Navigate to correct dashboard
+        if(parsedUser.role == 'manager') {
+          navigate("/manager_dashboard");
+        }
+        else{
+          navigate("/dashboard");
+        }
+      }
+    }
+    else {
+      alert("Not logged in");
+      navigate("/");
+    }
+  }, [navigate]);
+
 
   const AddUser = async (e) => {
     e.preventDefault();
@@ -38,7 +62,8 @@ export default function AddUsers() {
         }
       );
       console.log("Add User response:", response.data);
-      alert("user created sucessfully")
+      alert("User created sucessfully")
+      // navigate("/admin_dashboard/users_list");  @todo: navigate to user list (Megan's feature #41)
       // If successful, show success alert or navigate to user list
     } catch (error) {
       console.error("Add User failed:", error);
@@ -73,7 +98,7 @@ export default function AddUsers() {
                 New Staff
               </h2>
               <p className="mt-1 text-sm text-gray-600">
-                This is only an admin permission
+                Enter the new staff member's information below
               </p>
             </div>
 
