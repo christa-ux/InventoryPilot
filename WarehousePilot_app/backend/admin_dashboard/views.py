@@ -42,16 +42,17 @@ class AddUserView(APIView):
             if users.objects.filter(email=data['email']).exists(): # checks using email - userid instead?
                 return Response({"error": "User with this email already exists"}, status=400)
             else:
+                print("Creating user")
                 user = users.objects.create_user(
                     username=data['username'],
+                    password = data['password'],
                     email=data['email'],
                     role=data['role'],
                     first_name=data['first_name'],
                     last_name=data['last_name'],
-                    department=data['department']
+                    department=data['department'],
+                    dob = data['dob']
                 )
-                user.set_password(data['password']) # uses django's built-in set_password method to hash the password
-                # user.save() -- commented out temporarily
                 return Response({"message": "User created successfully"})
         except Exception as e:
             return Response({"error": str(e)}, status=500)
