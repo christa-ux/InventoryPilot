@@ -11,6 +11,7 @@ function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,7 +46,7 @@ function Login() {
       }
     } catch (error) {
       console.error('Login failed:', error);
-      alert('Invalid credentials, please try again.');
+      setError('Login failed. Please try again.');
     }
   };
 
@@ -90,6 +91,7 @@ function Login() {
             <a href="#" className="forgot-password">I forgot my password</a>
           </div>
           <button type="submit" className="login-button">Sign In</button>
+          {error && <p data-testid="login-error">{error}</p>}
         </form>
       </div>
       <div className="login-right">
