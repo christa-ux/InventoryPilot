@@ -4,4 +4,4 @@ from auth_app.models import users
 class StaffSerializer(serializers.ModelSerializer):
     class Meta:
         model = users
-        fields = '__all__'
+        fields = ('user_id', 'username', 'email', 'role', 'dob', 'first_name', 'last_name', 'department', 'is_active', 'is_staff')

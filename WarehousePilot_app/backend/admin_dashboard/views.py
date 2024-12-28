@@ -11,11 +11,14 @@ from .serializers import StaffSerializer
 def home(request):
     return HttpResponse("Hello, World!")
 
-# Manage Users: Retrieve all non-admin users of the platform
+# Manage Users: Retrieve all of the platform
 class ManageUsersView(APIView):
-    def get(self):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
         try:
-            staffData = users.objects.exclude(role='admin')
+            staffData = users.objects.all()
             serializer = StaffSerializer(staffData, many=True)
             return Response(serializer.data)
         
