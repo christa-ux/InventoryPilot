@@ -1,25 +1,33 @@
 // Admin page - Manage Users
 // route: ????
 // Admins 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-function viewMoreButtonPopup(var id)
-
-
+const handleDataRetrieval = async (e) => {
+    e.preventDefault();
+    try {
+        const response = await axios.get('http://127.0.0.1:8000/admin_dashboard/manage_users/', { staffData });
+        console.log('Manage users get response:', response.data); // Log the entire response
+        let usersData = response.data;
+        console.log('UsersData:', usersData); // Log the object
+        localStorage.setItem('users', JSON.stringify(usersData));
+        return usersData;
+    } catch (error) {
+        console.error('Failed to fetch data:', error);
+    }
+};
 
 export default function AllUsersPage() {
     // retrieve the database user data
-    const [usersData, setUsersData] = useState();  
+    const [usersData, setUsersData] = useState();
 
-
-
+    useEffect(() => {
+        setUsersData(handleDataRetrieval);
+    }, []);
 
     return (
         <div className="staffTableContainer">
-            <div cla>
-
-            </div>
             <table className="table-auto">
                 <tr>
                     <th>S/N</th>
@@ -49,3 +57,8 @@ export default function AllUsersPage() {
         </div>
     );
 }
+
+/*
+
+
+*/
