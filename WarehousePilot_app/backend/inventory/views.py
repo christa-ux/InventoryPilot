@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.http import JsonResponse
+from .models import Inventory
 
-# Create your views here.
-from django.http import HttpResponse
-
-
-def index(request):
-    return HttpResponse("Hello, world. You're at inventory index.")
+def get_inventory(request):
+    try:
+        inventory_data = Inventory.objects.all().values()
+        return JsonResponse(list(inventory_data), safe=False)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
