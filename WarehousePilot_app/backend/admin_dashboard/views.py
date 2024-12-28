@@ -50,7 +50,8 @@ class AddUserView(APIView):
                     role=data['role'],
                     first_name=data['first_name'],
                     last_name=data['last_name'],
-                    department=data['department']
+                    department=data['department'],
+                    dob = data['dob']
                 )
                 return Response({"message": "User created successfully"})
         except Exception as e:

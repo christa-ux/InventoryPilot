@@ -11,12 +11,14 @@ export default function AddUsers() {
   const [password, setPassword] = useState("");
   const [department, setDepartment] = useState("");
   const [role, setRole] = useState("");
+  const [dob, setDob] = useState(new Date());
 
   const typesOfUsers = ["Admin", "Manager", "Staff"];
 
   const AddUser = async (e) => {
     e.preventDefault();
     try {
+      console.log("Token from localStorage:", localStorage.getItem("token"));
       const response = await axios.post(
         "http://127.0.0.1:8000/admin_dashboard/add_user/",
         {
@@ -27,6 +29,7 @@ export default function AddUsers() {
           password,       // Now included
           department,
           role,
+          dob
         },
         {
           headers: {
@@ -35,6 +38,7 @@ export default function AddUsers() {
         }
       );
       console.log("Add User response:", response.data);
+      alert("user created sucessfully")
       // If successful, show success alert or navigate to user list
     } catch (error) {
       console.error("Add User failed:", error);
@@ -160,6 +164,23 @@ export default function AddUsers() {
                   placeholder="Enter Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  className="block w-full rounded-md outline outline-1 -outline-offset-1 outline-gray-300 border-gray-300 shadow-sm px-3 py-2 focus:ring-2 focus:ring-indigo-600 focus:border-transparent text-sm"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="dob"
+                  className="block text-sm font-medium text-gray-900 mb-1"
+                >
+                  DOB
+                </label>
+                <input
+                  id="dob"
+                  type="date"
+                  placeholder="Enter dob"
+                  value={dob}
+                  onChange={(e) => setDob(e.target.value)}
                   className="block w-full rounded-md outline outline-1 -outline-offset-1 outline-gray-300 border-gray-300 shadow-sm px-3 py-2 focus:ring-2 focus:ring-indigo-600 focus:border-transparent text-sm"
                 />
               </div>
