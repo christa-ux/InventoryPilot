@@ -5,6 +5,36 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from auth_app.models import users
 
-# Create your views here.
-def home(request):
-    return HttpResponse("Hello, World!")
+# # Create your views here.
+# def home(request):
+#     return HttpResponse("Hello, World!")
+
+
+
+class AddUserView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            # Checking if user exists before inserting
+            data = request.data
+            print(data)
+            if users.objects.filter(email=data['email']).exists(): # checks using email - userid instead?
+                return Response({"error": "User with this email already exists"}, status=400)
+            else:
+                print("Creating user")
+                user = users.objects.create_user(
+                    username=data['username'],
+                    password = data['password'],
+                    email=data['email'],
+                    role=data['role'],
+                    first_name=data['first_name'],
+                    last_name=data['last_name'],
+                    department=data['department'],
+                    dob = data['dob']
+
+                )
+                return Response({"message": "User created successfully"})
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)

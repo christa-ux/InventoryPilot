@@ -3,6 +3,7 @@ import axios from "axios";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { ChevronDownIcon } from "@heroicons/react/24/solid"; // or /16, depending on your setup
 import { useNavigate } from "react-router-dom";
+import Modal from "./Modal";
 
 export default function AddUsers() {
   const [username, setUsername] = useState("");
@@ -13,6 +14,8 @@ export default function AddUsers() {
   const [department, setDepartment] = useState("");
   const [role, setRole] = useState("");
   const [dob, setDob] = useState(new Date());
+
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   const typesOfUsers = ["Admin", "Manager", "Staff", "QA"];
@@ -20,24 +23,21 @@ export default function AddUsers() {
   // Check that the user is an admin (only admins should be able to navigate to this page and add users)
   useEffect(() => {
     const user = localStorage.getItem("user");
-    if(user) {
+    if (user) {
       const parsedUser = JSON.parse(user);
-      if(parsedUser.role != 'admin') {
+      if (parsedUser.role != "admin") {
         // Navigate to correct dashboard
-        if(parsedUser.role == 'manager') {
+        if (parsedUser.role == "manager") {
           navigate("/manager_dashboard");
-        }
-        else{
+        } else {
           navigate("/dashboard");
         }
       }
-    }
-    else {
+    } else {
       alert("Not logged in");
       navigate("/");
     }
   }, [navigate]);
-
 
   const AddUser = async (e) => {
     e.preventDefault();
@@ -50,10 +50,10 @@ export default function AddUsers() {
           first_name,
           last_name,
           email,
-          password,       // Now included
+          password, // Now included
           department,
           role,
-          dob
+          dob,
         },
         {
           headers: {
@@ -62,9 +62,9 @@ export default function AddUsers() {
         }
       );
       console.log("Add User response:", response.data);
-      alert("User created sucessfully")
       // navigate("/admin_dashboard/users_list");  @todo: navigate to user list (Megan's feature #41)
       // If successful, show success alert or navigate to user list
+      setShowModal(true); // Only triggered after successful API call
     } catch (error) {
       console.error("Add User failed:", error);
       alert("Couldn't add user"); // replace with better UI feedback as needed
@@ -72,7 +72,10 @@ export default function AddUsers() {
   };
 
   return (
-    <form onSubmit={AddUser} className="w-full max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
+    <form
+      onSubmit={AddUser}
+      className="w-full max-w-7xl mx-auto p-4 md:p-6 lg:p-8"
+    >
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Profile Section */}
         <div className="max-w-60 lg:w-1/3 p-4 md:p-6 border-2 border-grey-500/50 rounded-lg">
@@ -95,7 +98,7 @@ export default function AddUsers() {
           <div className="space-y-6">
             <div>
               <h2 className="text-xl font-semibold text-gray-900">
-                New Staff
+                Add new user
               </h2>
               <p className="mt-1 text-sm text-gray-600">
                 Enter the new staff member's information below
@@ -250,9 +253,7 @@ export default function AddUsers() {
                       </option>
                     ))}
                   </select>
-                  <ChevronDownIcon
-                    className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500 pointer-events-none"
-                  />
+                  <ChevronDownIcon className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500 pointer-events-none" />
                 </div>
               </div>
             </div>
@@ -265,6 +266,14 @@ export default function AddUsers() {
               >
                 Add Staff
               </button>
+
+              {showModal && (
+                <Modal
+                  header="Congratulations"
+                  body="You have successfully created an account for this staff"
+                  LinkTo ="/admin_dashboard"
+                />
+              )}
             </div>
           </div>
         </div>
