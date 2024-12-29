@@ -248,7 +248,7 @@ export default function AddUsers() {
                   >
                     <option value="">Select Role</option>
                     {typesOfUsers.map((type) => (
-                      <option key={type} value={type}>
+                      <option key={type} value={type.toLowerCase()}>
                         {type}
                       </option>
                     ))}
