@@ -30,7 +30,7 @@ class users(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email', 'role', 'first_name', 'dob' 'last_name', 'department']
+    REQUIRED_FIELDS = ['email', 'role', 'first_name', 'dob', 'last_name', 'department']
 
     objects = CustomUserManager()
 
