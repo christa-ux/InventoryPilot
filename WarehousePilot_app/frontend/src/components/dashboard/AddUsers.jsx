@@ -35,14 +35,14 @@ function AddUsers() {
       const response = await axios.post('http://127.0.0.1:8000/admin_dashboard/add_user/', { username, first_name, last_name, email, password, role, dob, department},
         {headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}}
       );
-      console.log('Add User response:', response.data); // Log the entire response
-      const { access, user } = response.data; // Adjust this based on the actual structure
-      console.log('Response:', user); // Log the user object to see its structure
-      
-      // if successful add: alert success and redirect to user list
-    } catch (error) {
-      console.error('Add User failed:', error);
-      alert('Couldn\'t add user'); // remove alert later and replace with pop up UI message
+      console.log("Add User response:", response.data);
+      // If successful, show success alert or navigate to user list
+      setShowModal(true); // Only triggered after successful API call
+      navigate("/admin_dashboard/manage_users");
+    } 
+    catch (error) {
+      console.error("Add User failed:", error);
+      alert("Couldn't add user"); // replace with better UI feedback as needed
     }
   };
 
