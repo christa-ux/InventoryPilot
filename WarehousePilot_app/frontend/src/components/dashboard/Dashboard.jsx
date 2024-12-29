@@ -20,7 +20,7 @@ const Dashboard = ({ userData }) => {
   return (
     <div className="flex">
       {/* Sidebar */}
-      <Sidebar userData={userData} isOpen={isSidebarOpen} />
+      <Sidebar userData={userData} isOpen={isSidebarOpen} handleLogout={handleLogout} />
 
       {/* Main Content */}
       <div className="flex-1 sm:ml-64">
