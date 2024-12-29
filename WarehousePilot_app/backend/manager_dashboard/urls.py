@@ -1,8 +1,6 @@
 from django.urls import path
-from .views import home, SKUAlertAPIView
+from .views import home
 
 urlpatterns = [
-    path('', home, name='home'),   
-    path('api/sku-alerts/', SKUAlertAPIView.as_view(), name='sku_alerts'),  
+    path('', home, name='home'),
 ]
-
