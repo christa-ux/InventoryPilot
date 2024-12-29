@@ -22,7 +22,7 @@ export default function ManageUsersPage() {
             const token = localStorage.getItem('token');
             if (token) {
                 try {
-                    const response = await axios.get('http://127.0.0.1:8000/admin_dashboard/profile/', {
+                    const response = await axios.get('http://127.0.0.1:8000/auth/profile/', {
                         headers: { Authorization: `Bearer ${token}` },
                     });
                     setUserData(response.data);
