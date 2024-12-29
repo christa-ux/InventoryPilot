@@ -44,13 +44,6 @@ const Dashboard = ({ userData }) => {
           ) : (
             <p>Error</p>
           )}
-          <button type="button" onClick={() => navigate("/account_management")}>
-            Account Management
-          </button>
-          <button type="button" onClick={handleLogout}>
-            Log Out
-          </button>
-
           {/* <p className="mt-4 text-gray-700">
             This is where your main content will go.This is the default dashboard. Do you have a role?</p>
             <button type='button' onClick={handleLogout}>Log Out</button> */}
