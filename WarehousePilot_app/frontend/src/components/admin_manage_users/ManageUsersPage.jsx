@@ -76,7 +76,7 @@ export default function ManageUsersPage() {
                                 fontWeight: "700",
                             }}
                         >
-                            <Button variant="contained" color="success" href="/add_staff">
+                            <Button variant="contained" color="success" href="/admin_dashboard/add_users">
                                 Add new staff
                             </Button>
                             <h2 className="text-lg font-bold">Total number of staff: {localStorage.getItem('staffAmount')}</h2>
