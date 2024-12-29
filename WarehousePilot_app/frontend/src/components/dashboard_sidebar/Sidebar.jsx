@@ -200,7 +200,7 @@ const Sidebar = ({ isOpen }) => {
         <ul className="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
           <li>
             <Link
-              to={dashboardPath}
+              to={'/admin_dashboard/manage_users'}
               className="flex items-center p-2 text-gray-900 hover:bg-gray-100 rounded-lg dark:text-white dark:hover:bg-gray-700"
             >
               <svg

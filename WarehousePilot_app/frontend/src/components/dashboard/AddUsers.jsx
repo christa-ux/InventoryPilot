@@ -62,10 +62,11 @@ export default function AddUsers() {
         }
       );
       console.log("Add User response:", response.data);
-      // navigate("/admin_dashboard/users_list");  @todo: navigate to user list (Megan's feature #41)
       // If successful, show success alert or navigate to user list
       setShowModal(true); // Only triggered after successful API call
-    } catch (error) {
+      navigate("/admin_dashboard/manage_users");
+    } 
+    catch (error) {
       console.error("Add User failed:", error);
       alert("Couldn't add user"); // replace with better UI feedback as needed
     }
