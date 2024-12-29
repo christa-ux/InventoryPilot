@@ -77,9 +77,10 @@ function ChangePassword() {
           <h1>Change Password</h1>
           <form onSubmit={handlePasswordChange} className='max-w-md'>
             <div className="mb-4">
-              <label className="block text-gray-700">Old Password:</label>
+              <label htmlFor='old-password' className="block text-gray-700">Old Password:</label>
               <input
                 type="password"
+                id='old-password'
                 value={oldPassword}
                 onChange={(e) => setOldPassword(e.target.value)}
                 required
@@ -87,9 +88,10 @@ function ChangePassword() {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700">New Password:</label>
+              <label htmlFor='new-password' className="block text-gray-700">New Password:</label>
               <input
                 type="password"
+                id='new-password'
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 required
@@ -97,9 +99,10 @@ function ChangePassword() {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700">Confirm New Password:</label>
+              <label htmlFor='confirm-new-password' className="block text-gray-700">Confirm New Password:</label>
               <input
                 type="password"
+                id='confirm-new-password'
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
