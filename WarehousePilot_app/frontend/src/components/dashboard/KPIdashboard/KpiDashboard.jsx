@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Sidebar from "../dashboard_sidebar/Sidebar";
-import Header from "../dashboard_sidebar/Header";
+import Sidebar from "../../dashboard_sidebar/Sidebar";
+import Header from "../../dashboard_sidebar/Header";
 import CycleTime from "./CycleTime";
 import OrderPickingAccuracy from "./OrderPickingAccuracy";
 import StockLevels from "./StockLevels";

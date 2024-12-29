@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import routes from "./components/routes";  
-import KpiDashboard from "./components/dashboard/KpiDashboard"; 
+import KpiDashboard from "./components/dashboard/KPIdashboard/KpiDashboard"; 
 
 // Main App Component
 function App() {

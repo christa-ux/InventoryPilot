@@ -1,6 +1,6 @@
 import { Dashboard, ManagerDashboard, AdminDashboard, AccountManagement, ChangePassword  } from '../dashboard';
 import Profile from '../dashboard/profile';
-import KpiDashboard from "../dashboard/KpiDashboard"
+import KpiDashboard from '../dashboard/KPIdashboard/KpiDashboard';
 import AddUsers from '../dashboard/AddUsers';
 
 
