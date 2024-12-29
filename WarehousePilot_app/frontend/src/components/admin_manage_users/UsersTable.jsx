@@ -102,6 +102,7 @@ export default function UsersTable() {
                     pagination: { paginationModel: DEFAULT_PAGINATION },
                 }}
                 pageSizeOptions={[15]}
+                rowHeight={45}
                 checkboxSelection
                 disableRowSelectionOnClick
                 sx={{
