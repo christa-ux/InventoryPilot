@@ -27,7 +27,7 @@ import {
   Chip,
 } from "@nextui-org/react";
 import {SearchIcon} from "@nextui-org/shared-icons";
-import React, {useMemo, useRef, useCallback, useState} from "react";
+import React, {useMemo, useRef, useCallback, useState, useEffect} from "react";
 import {Icon} from "@iconify/react";
 import {cn} from "@nextui-org/react";
 
@@ -40,7 +40,7 @@ import {ArrowUpIcon} from "./arrow-up";
 
 import {useMemoizedCallback} from "./use-memoized-callback";
 
-import {columns, INITIAL_VISIBLE_COLUMNS, inventory, statusColorMap} from "./data";
+import {columns, INITIAL_VISIBLE_COLUMNS, fetchInventoryData, statusColorMap} from "./data";
 
 export default function Component() {
   const [filterValue, setFilterValue] = useState("");
@@ -52,6 +52,23 @@ export default function Component() {
     column: "inventory_id",
     direction: "ascending",
   });
+  const [inventory, setInventory] = useState<Inventory[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadInventory = async () => {
+      try {
+        const data = await fetchInventoryData();
+        setInventory(data);
+      } catch (error) {
+        console.error("Failed to fetch inventory data", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadInventory();
+  }, []);
 
   const headerColumns = useMemo(() => {
     if (visibleColumns === "all") return columns;
@@ -80,7 +97,7 @@ export default function Component() {
     }
 
     return filteredInventory;
-  }, [filterValue]);
+  }, [filterValue, inventory]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage) || 1;
 
@@ -341,7 +358,7 @@ export default function Component() {
         </Button>
       </div>
     );
-  }, []);
+  }, [inventory.length]);
 
   const bottomContent = useMemo(() => {
     return (
@@ -373,6 +390,10 @@ export default function Component() {
       </div>
     );
   }, [filterSelectedKeys, page, pages, filteredItems.length, onPreviousPage, onNextPage]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="h-full w-full p-6" style={{ padding: "40px" }}>

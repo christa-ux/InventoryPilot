@@ -17,7 +17,6 @@ export const statusColorMap: Record<StatusOptions, JSX.Element> = {
   Moderate: WarningCircleSvg,
   High: SuccessCircleSvg,
   "Out of Stock": DefaultCircleSvg,
-
 };
 
 export type Inventory = {
@@ -59,26 +58,14 @@ export const columns = [
   {name: "Stock Level", uid: "status"},
 ];
 
-const inventoryData = [
-  {
-    inventory_id: 171,
-    location: "A01-01",
-    sku_color_id: "HU-KP001-4DR SS",
-    qty: 84,
-    warehouse_number: "499 A",
-    amount_needed: 0,
-    status: "High" as StatusOptions,
-  },
-  {
-    inventory_id: 172,
-    location: "A01-02",
-    sku_color_id: "HP-RT005-4DR TXPT",
-    qty: 169,
-    warehouse_number: "499 A",
-    amount_needed: 0,
-    status: "Out of Stock" as StatusOptions,
-  },
-  // ...additional data...
-];
-
-export const inventory: Inventory[] = inventoryData;
+export const fetchInventoryData = async (): Promise<Inventory[]> => {
+  const response = await fetch("http://127.0.0.1:8000/inventory");
+  if (!response.ok) {
+    throw new Error("Failed to fetch inventory data");
+  }
+  const data = await response.json();
+  return data.map((item: any) => ({
+    ...item,
+    status: item.status as StatusOptions,
+  }));
+};
