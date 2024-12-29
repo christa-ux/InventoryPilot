@@ -5,28 +5,36 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from auth_app.models import users
 
-# Create your views here.
-def home(request):
-    return HttpResponse("Hello, World!")
+# # Create your views here.
+# def home(request):
+#     return HttpResponse("Hello, World!")
 
-class ProfileView(APIView):
+
+
+class AddUserView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
+    def post(self, request):
         try:
-            user = request.user
-            print(f"Request user: {user}")  # Debugging
-            print(f"User type: {type(user)}")  # Debugging
+            # Checking if user exists before inserting
+            data = request.data
+            print(data)
+            if users.objects.filter(email=data['email']).exists(): # checks using email - userid instead?
+                return Response({"error": "User with this email already exists"}, status=400)
+            else:
+                print("Creating user")
+                user = users.objects.create_user(
+                    username=data['username'],
+                    password = data['password'],
+                    email=data['email'],
+                    role=data['role'],
+                    first_name=data['first_name'],
+                    last_name=data['last_name'],
+                    department=data['department'],
+                    dob = data['dob']
 
-            user_data = {
-                'username': user.username,
-                'email': user.email,
-                'role': getattr(user, 'role', 'N/A'),  
-                'first_name': getattr(user, 'first_name', 'N/A'),
-                'last_name': getattr(user, 'last_name', 'N/A'),
-                'department': getattr(user, 'department', 'N/A'),
-            }
-            return Response(user_data)
+                )
+                return Response({"message": "User created successfully"})
         except Exception as e:
             return Response({"error": str(e)}, status=500)
