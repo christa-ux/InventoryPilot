@@ -1,6 +1,7 @@
 import { Dashboard, ManagerDashboard, AdminDashboard, AccountManagement, ChangePassword  } from '../dashboard';
 import Profile from '../dashboard/profile';
 import KpiDashboard from "../dashboard/KpiDashboard"
+import Component from '../inventory-stock/App'; 
 
 
 export const dashboard_routes = [
@@ -11,5 +12,6 @@ export const dashboard_routes = [
   { path: '/profile', element: <Profile /> },
   { path: '/kpi', element: <KpiDashboard /> },
   { path: '/change_password', element: <ChangePassword /> },
+  { path: '/inventory-stock', element: <Component /> },
 
 ];
