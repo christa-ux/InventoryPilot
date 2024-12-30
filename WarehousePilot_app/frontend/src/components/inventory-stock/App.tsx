@@ -322,10 +322,9 @@ export default function Component() {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Selected Actions">
-                <DropdownItem key="send-email">Send email</DropdownItem>
-                <DropdownItem key="pay-invoices">Pay invoices</DropdownItem>
-                <DropdownItem key="bulk-edit">Bulk edit</DropdownItem>
-                <DropdownItem key="end-contract">End contract</DropdownItem>
+                <DropdownItem key="export-data">Export Data</DropdownItem>
+                <DropdownItem key="delete-items">Delete Items</DropdownItem>
+                <DropdownItem key="move-to-warehouse">Move to Warehouse</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           )}

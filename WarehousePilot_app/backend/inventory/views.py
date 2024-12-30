@@ -1,5 +1,15 @@
 from django.http import JsonResponse
 from .models import Inventory
+from django.core.mail import send_mail
+
+def send_alert(item):
+    send_mail(
+        'Low Stock Alert',
+        f'The stock level for {item["sku_color_id"]} is low. Current quantity: {item["qty"]}',
+        'from@example.com',
+        ['to@example.com'],
+        fail_silently=False,
+    )
 
 def get_inventory(request):
     try:
@@ -11,6 +21,7 @@ def get_inventory(request):
                 item['status'] = 'Out of Stock'
             elif qty < 50:
                 item['status'] = 'Low'
+                send_alert(item)  # Trigger alert for low stock
             elif 50 <= qty <= 100:
                 item['status'] = 'Moderate'
             else:
