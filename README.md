@@ -51,37 +51,38 @@ git clone https://github.com/christa-ux/InventoryPilot.git
 
 ### To run the backend
 ```
-1. cd WarehousePilot_app\backend
+cd WarehousePilot_app\backend
 ```
 ```
-2. pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 ```
-3. create the .env file and add the environment variables
+create the .env file and add the environment variables
 ```
 ```
-4. python manage.py migrate
+python manage.py migrate
 ```
+To run server:
 ```
-5. To run the server: python manage.py runserver
+python manage.py runserver
 ```
 
 ### For frontend
 ```
-1. cd WarehousePilot_app
+cd WarehousePilot_app
 ```
 ```
-2. cd frontend
+cd frontend
 ```
 To download front-end dependencies: nextUI, reactJS, TailwindCSS, chartJS, heroicon, vite)
 ```
-3. npm install 
+npm install 
 ```
 ```
-5. npm run dev
+npm run dev
 ```
 ```
-6. control click on the localhost to open the webpage
+control click on the localhost to open the webpage
 ```
 
 
