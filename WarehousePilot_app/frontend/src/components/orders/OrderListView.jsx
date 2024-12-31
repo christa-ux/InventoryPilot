@@ -8,7 +8,8 @@ import {
   TableCell,
   Input,
   Pagination,
-} from '@nextui-org/react';
+  Button,
+} from '@nextui-org/react'; // <-- Added Button import from NextUI
 import { SearchIcon } from '@nextui-org/shared-icons';
 import axios from 'axios';
 import Sidebar from '../dashboard_sidebar/Sidebar';
@@ -43,7 +44,6 @@ const OrderListView = () => {
           },
         });
 
-        // Transform the response data into the shape you need
         setRows(
           response.data.map((row, index) => ({
             id: index + 1, // Provide a unique ID for the table
@@ -64,10 +64,15 @@ const OrderListView = () => {
     fetchOrders();
   }, []);
 
-  // Filter rows by search string
+  // Handle "Start" action
+  const handleStart = (orderId) => {
+    // For now, just log the ID. Replace with a real API call if needed.
+    console.log('Starting fulfillment for order:', orderId);
+  };
+
+  // Filter rows by search text
   const filteredRows = useMemo(() => {
     if (!filterValue.trim()) return rows;
-
     const searchTerm = filterValue.toLowerCase();
     return rows.filter((row) => {
       const orderIdMatch = row.order_id?.toString().toLowerCase().includes(searchTerm);
@@ -78,14 +83,14 @@ const OrderListView = () => {
     });
   }, [rows, filterValue]);
 
-  // Implement pagination on filtered rows
+  // Apply pagination
   const paginatedRows = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
     return filteredRows.slice(start, end);
   }, [page, rowsPerPage, filteredRows]);
 
-  // Calculate total pages
+  // Total pages
   const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
 
   // Toggle sidebar
@@ -106,13 +111,12 @@ const OrderListView = () => {
           {/* Smaller Search Input */}
           <div className="mb-6 flex items-center gap-2">
             <Input
-              size="md" // or "sm"
+              size="md"
               placeholder="Search orders"
               value={filterValue}
               onChange={(e) => setFilterValue(e.target.value)}
               endContent={<SearchIcon className="text-default-400" width={16} />}
-              // Set a custom width or remove css prop for default sizing
-              css={{ width: '300px' }} 
+              css={{ width: '300px' }}
             />
           </div>
 
@@ -134,7 +138,10 @@ const OrderListView = () => {
                   <TableColumn>Estimated Duration</TableColumn>
                   <TableColumn>Status</TableColumn>
                   <TableColumn>Due Date</TableColumn>
+                  {/* New Actions Column */}
+                  <TableColumn>Action</TableColumn>
                 </TableHeader>
+
                 <TableBody items={paginatedRows}>
                   {(item) => (
                     <TableRow key={item.id}>
@@ -142,6 +149,15 @@ const OrderListView = () => {
                       <TableCell>{item.estimated_duration}</TableCell>
                       <TableCell>{item.status}</TableCell>
                       <TableCell>{item.due_date}</TableCell>
+                      <TableCell>
+                        <Button
+                          color="primary"
+                          size="sm"
+                          onPress={() => handleStart(item.order_id)}
+                        >
+                          Start
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   )}
                 </TableBody>
