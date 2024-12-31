@@ -17,4 +17,5 @@ export const dashboard_routes = [
   { path: '/change_password', element: <ChangePassword /> },
   { path: '/inventory-stock', element: <Component /> },
   {path: '/admin_dashboard/add_users', element: <AddUsersDashboard />},
+  {path: '/admin_dashboard/edit_user/:user_id', element: <AddUsersDashboard />},
 ];
