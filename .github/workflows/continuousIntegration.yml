@@ -29,7 +29,6 @@ jobs:
         run: |
           cd WarehousePilot_app/backend
           pip install -r requirements.txt
-          python manage.py collectstatic --no-input
  
       - name: Wait for PostgreSQL to be ready
         run: sleep 10
