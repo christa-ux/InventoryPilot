@@ -39,7 +39,7 @@ jobs:
         run: |
           cd WarehousePilot_app/backend
           python manage.py migrate
-          python manage.py test --settings=your_project.settings.test 
+          python manage.py test --settings=backend.backend.settings.test 
  
       - name: Set up Node.js
         uses: actions/setup-node@v3
