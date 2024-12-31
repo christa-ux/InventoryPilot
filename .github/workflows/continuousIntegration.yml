@@ -27,6 +27,7 @@ jobs:
 
       - name: Install backend dependencies
         run: |
+          cd backend
           pip install -r requirements.txt
           python manage.py collectstatic --no-input
  
@@ -37,6 +38,7 @@ jobs:
         env:
           DATABASE_URL: "postgres://${{ secrets.DATABASE_USER }}:${{ secrets.DATABASE_PASSWORD }}@localhost:5432/${{ secrets.DATABASE_NAME }}"
         run: |
+          cd backend
           python manage.py migrate
           python manage.py test --settings=your_project.settings.test 
  
