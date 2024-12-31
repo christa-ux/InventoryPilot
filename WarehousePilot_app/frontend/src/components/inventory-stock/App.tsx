@@ -288,7 +288,7 @@ export default function InventoryTable() {
             <Input
               className="min-w-[200px]"
               endContent={<SearchIcon className="text-default-400" width={16} />}
-              placeholder="Search"
+              placeholder="Search by SKU Color ID"
               size="sm"
               value={filterValue}
               onValueChange={onSearchChange}
