@@ -65,6 +65,7 @@ export default function InventoryTable() {
     return savedStatus ? JSON.parse(savedStatus) : true;
   }); 
   const [isAddItemPopoverOpen, setIsAddItemPopoverOpen] = useState(false);
+  const [isDeletePopoverOpen, setIsDeletePopoverOpen] = useState(false);
 
   useEffect(() => {
     const loadInventory = async () => {
@@ -284,6 +285,19 @@ export default function InventoryTable() {
     }));
   };
 
+  const confirmDelete = () => {
+    
+    if (window.confirm("Are you sure you want to delete the selected items?")) {
+      handleDeleteConfirm();
+    }
+  };
+
+  const handleDeleteConfirm = async () => {
+    setIsDeletePopoverOpen(false);
+    await deleteSelectedItems();
+    toast.success("Items deleted successfully!");
+  };
+
   const topContent = useMemo(() => {
     return (
       <div className="flex items-center gap-4 overflow-auto px-[6px] py-[4px]">
@@ -380,7 +394,7 @@ export default function InventoryTable() {
               </DropdownTrigger>
               <DropdownMenu aria-label="Selected Actions">
                 <DropdownItem key="export-data" onPress={exportData}>Export Data</DropdownItem>
-                <DropdownItem key="delete-items" onPress={deleteSelectedItems}>Delete Items</DropdownItem>
+                <DropdownItem key="delete-items" onPress={confirmDelete}>Delete Items</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           )}
@@ -396,7 +410,7 @@ export default function InventoryTable() {
     onSearchChange,
     setVisibleColumns,
     exportData,
-    deleteSelectedItems
+    confirmDelete
   ]);
 
   const topBar = useMemo(() => {
@@ -430,10 +444,11 @@ export default function InventoryTable() {
               </Button>
             </PopoverTrigger>
             <PopoverContent>
-            <AddItemForm onAddItem={(newItem) => {
+              <AddItemForm onAddItem={(newItem) => {
                 setInventory((prevInventory) => [...prevInventory, newItem]);
                 setIsAddItemPopoverOpen(false);
-              }} onCancel={() => setIsAddItemPopoverOpen(false)} />            </PopoverContent>
+              }} onCancel={() => setIsAddItemPopoverOpen(false)} />
+            </PopoverContent>
           </Popover>
         </div>
       </div>
