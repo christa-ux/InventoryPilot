@@ -108,15 +108,8 @@ export default function InventoryTable() {
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage) || 1;
 
-  const items = useMemo(() => {
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-
-    return filteredItems.slice(start, end);
-  }, [page, filteredItems, rowsPerPage]);
-
   const sortedItems = useMemo(() => {
-    return [...items].sort((a: Inventory, b: Inventory) => {
+    return [...filteredItems].sort((a: Inventory, b: Inventory) => {
       const col = sortDescriptor.column as keyof Inventory;
 
       const first = a[col];
@@ -126,7 +119,14 @@ export default function InventoryTable() {
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
-  }, [sortDescriptor, items]);
+  }, [sortDescriptor, filteredItems]);
+
+  const paginatedItems = useMemo(() => {
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+
+    return sortedItems.slice(start, end);
+  }, [page, sortedItems, rowsPerPage]);
 
   const filterSelectedKeys = useMemo(() => {
     if (selectedKeys === "all") return selectedKeys;
@@ -271,6 +271,15 @@ export default function InventoryTable() {
     }
   };
 
+  const handleSortChange = (column: ColumnsKey) => {
+    setSortDescriptor((prevSortDescriptor) => ({
+      column,
+      direction: prevSortDescriptor.column === column && prevSortDescriptor.direction === "ascending"
+        ? "descending"
+        : "ascending",
+    }));
+  };
+
   const topContent = useMemo(() => {
     return (
       <div className="flex items-center gap-4 overflow-auto px-[6px] py-[4px]">
@@ -299,18 +308,12 @@ export default function InventoryTable() {
                 </DropdownTrigger>
                 <DropdownMenu
                   aria-label="Sort"
-                  items={headerColumns.filter((c) => !["actions"].includes(c.uid))}
+                  items={headerColumns.filter((c) => !["actions", "status"].includes(c.uid))}
                 >
                   {(item) => (
                     <DropdownItem
                       key={item.uid}
-                      onPress={() => {
-                        setSortDescriptor({
-                          column: item.uid,
-                          direction:
-                            sortDescriptor.direction === "ascending" ? "descending" : "ascending",
-                        });
-                      }}
+                      onPress={() => handleSortChange(item.uid as ColumnsKey)}
                     >
                       {item.name}
                     </DropdownItem>
@@ -491,7 +494,7 @@ export default function InventoryTable() {
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody emptyContent={"No items found"} items={sortedItems}>
+        <TableBody emptyContent={"No items found"} items={paginatedItems}>
           {(item) => (
             <TableRow key={item.inventory_id}>
               {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
