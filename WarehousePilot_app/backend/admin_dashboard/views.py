@@ -112,3 +112,25 @@ class EditUserView(APIView):
                 {"error": f"An error occurred: {str(e)}"}, 
                 status=500
             )
+            
+            
+
+class DeleteUserView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, user_id):
+        """
+        Deletes a user by user_id.
+        """
+        try:
+            user = users.objects.get(user_id=user_id)
+            user.delete()
+            logger.info(f"User with user_id {user_id} deleted successfully.")
+            return Response({"message": "User deleted successfully"}, status=200)
+        except users.DoesNotExist:
+            logger.error(f"User with user_id {user_id} not found.")
+            return Response({"error": "User not found"}, status=404)
+        except Exception as e:
+            logger.error(f"An error occurred while deleting user: {str(e)}")
+            return Response({"error": f"An error occurred: {str(e)}"}, status=500)
