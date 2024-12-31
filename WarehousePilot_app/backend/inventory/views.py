@@ -1,7 +1,10 @@
 from django.http import JsonResponse
 from .models import Inventory
 from django.core.mail import send_mail
-
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
+import json
+from django.middleware.csrf import get_token
 
 # def send_alert(item):
 #     send_mail(
@@ -32,3 +35,17 @@ def get_inventory(request):
         return JsonResponse({"inventory": inventory_list, "low_stock_items": low_stock_items}, safe=False)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+
+@csrf_exempt
+@require_POST
+def delete_inventory_items(request):
+    try:
+        data = json.loads(request.body)
+        item_ids = data.get('item_ids', [])
+        Inventory.objects.filter(inventory_id__in=item_ids).delete()
+        return JsonResponse({"message": "Items deleted successfully"}, status=200)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
+def get_csrf_token(request):
+    return JsonResponse({'csrfToken': get_token(request)})

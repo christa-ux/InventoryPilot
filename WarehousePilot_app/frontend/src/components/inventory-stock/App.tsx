@@ -42,7 +42,7 @@ import {ArrowUpIcon} from "./arrow-up";
 
 import {useMemoizedCallback} from "./use-memoized-callback";
 
-import {columns, INITIAL_VISIBLE_COLUMNS, fetchInventoryData, statusColorMap} from "./data";
+import {columns, INITIAL_VISIBLE_COLUMNS, fetchInventoryData, statusColorMap, deleteInventoryItems} from "./data";
 import NotifCard from "../notifications/notifications-card/App";
 
 export default function InventoryTable() {
@@ -234,7 +234,14 @@ export default function InventoryTable() {
   };
 
   const exportData = () => {
-    const selectedItems = inventory.filter(item => filterSelectedKeys !== "all" && filterSelectedKeys.has(String(item.inventory_id)));
+    let selectedItems;
+
+    if (filterSelectedKeys === "all") {
+      selectedItems = inventory;
+    } else {
+      selectedItems = inventory.filter(item => filterSelectedKeys.has(String(item.inventory_id)));
+    }
+    
     const csvContent = [
       ["Inventory ID", "SKU Color ID", "Location", "Quantity", "Warehouse Number", "Amount Needed", "Status"],
       ...selectedItems.map(item => [
@@ -250,6 +257,18 @@ export default function InventoryTable() {
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     saveAs(blob, 'inventory_data.csv');
+  };
+
+  const deleteSelectedItems = async () => {
+    try {
+      const itemIds = Array.from(filterSelectedKeys).map((key) => Number(key));
+      await deleteInventoryItems(itemIds);
+      const updatedInventory = await fetchInventoryData();
+      setInventory(updatedInventory);
+      setSelectedKeys(new Set());
+    } catch (error) {
+      console.error("Failed to delete selected items", error);
+    }
   };
 
   const topContent = useMemo(() => {
@@ -354,7 +373,7 @@ export default function InventoryTable() {
               </DropdownTrigger>
               <DropdownMenu aria-label="Selected Actions">
                 <DropdownItem key="export-data" onPress={exportData}>Export Data</DropdownItem>
-                <DropdownItem key="delete-items">Delete Items</DropdownItem>
+                <DropdownItem key="delete-items" onPress={deleteSelectedItems}>Delete Items</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           )}
@@ -369,7 +388,8 @@ export default function InventoryTable() {
     sortDescriptor,
     onSearchChange,
     setVisibleColumns,
-    exportData
+    exportData,
+    deleteSelectedItems
   ]);
 
   const topBar = useMemo(() => {
