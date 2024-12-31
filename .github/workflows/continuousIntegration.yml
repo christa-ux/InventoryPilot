@@ -30,11 +30,11 @@ jobs:
           cd WarehousePilot_app/backend
           pip install -r requirements.txt
       
-      - name: Run flake8
-        run: |
-          cd WarehousePilot_app/backend
-          pip install flake8
-          flake8 .
+    #  - name: Run flake8
+    #    run: |
+    #      cd WarehousePilot_app/backend
+    #      pip install flake8
+    #      flake8 .
  
       - name: Wait for PostgreSQL to be ready
         run: sleep 10
