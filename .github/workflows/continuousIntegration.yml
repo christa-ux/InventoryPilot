@@ -52,7 +52,6 @@ jobs:
  
       - name: Run frontend tests
         run: |
-        cd frontend
         npm test -- --coverage
       
       - name: Cache node modules
