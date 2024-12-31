@@ -41,8 +41,9 @@ import {ArrowUpIcon} from "./arrow-up";
 import {useMemoizedCallback} from "./use-memoized-callback";
 
 import {columns, INITIAL_VISIBLE_COLUMNS, fetchInventoryData, statusColorMap} from "./data";
+import NotifCard from "../notifications/notifications-card/App";
 
-export default function Component() {
+export default function InventoryTable() {
   const [filterValue, setFilterValue] = useState("");
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
   const [visibleColumns, setVisibleColumns] = useState<Selection>(new Set(INITIAL_VISIBLE_COLUMNS));
@@ -345,16 +346,28 @@ export default function Component() {
     return (
       <div className="mb-[18px] flex items-center justify-between">
         <div className="flex w-[226px] items-center gap-2">
-            <h1 className="text-2xl font-[700] leading-[32px]">
+          <h1 className="text-2xl font-[700] leading-[32px]">
             <b>Inventory</b>
-            </h1>
+          </h1>
           <Chip className="hidden items-center text-default-500 sm:flex" size="sm" variant="flat">
             {inventory.length}
           </Chip>
         </div>
-        <Button color="primary" endContent={<Icon icon="solar:add-circle-bold" width={20} />}>
-          Add Item
-        </Button>
+        <div className="flex items-center gap-6">
+          <Popover>
+            <PopoverTrigger>
+              <Button isIconOnly variant="flat">
+                <Icon icon="solar:bell-outline" width={24} />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <NotifCard/>
+            </PopoverContent>
+          </Popover>
+          <Button color="primary" endContent={<Icon icon="solar:add-circle-bold" width={20} />}>
+            Add Item
+          </Button>
+        </div>
       </div>
     );
   }, [inventory.length]);

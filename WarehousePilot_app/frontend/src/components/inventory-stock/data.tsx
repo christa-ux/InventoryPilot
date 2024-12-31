@@ -64,7 +64,10 @@ export const fetchInventoryData = async (): Promise<Inventory[]> => {
     throw new Error("Failed to fetch inventory data");
   }
   const data = await response.json();
-  return data.map((item: any) => ({
+  if (!Array.isArray(data.inventory)) {
+    throw new Error("Invalid inventory data format");
+  }
+  return data.inventory.map((item: any) => ({
     ...item,
     status: item.status as StatusOptions,
   }));
