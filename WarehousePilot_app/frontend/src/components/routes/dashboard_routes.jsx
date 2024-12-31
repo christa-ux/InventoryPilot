@@ -7,7 +7,7 @@ import AddUsersDashboard from '../dashboard/AddUsersDashboard';
 
 
 export const dashboard_routes = [
-  { path: '/dashboard', element: <Dashbard /> },
+  { path: '/dashboard', element: <Dashboard /> },
   { path: '/manager_dashboard', element: <ManagerDashboard /> },
   { path: '/admin_dashboard', element: <AdminDashboard /> },
   { path: '/admin_dashboard/manage_users', element: <ManageUsersPage /> },
