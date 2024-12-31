@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, BasePermission
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from auth_app.models import users
 from .serializers import StaffSerializer
@@ -11,10 +11,15 @@ from .serializers import StaffSerializer
 def home(request):
     return HttpResponse("Hello, World!")
 
+# IsAdminUser: Allows access to admin users
+class IsAdminUser(BasePermission):
+    def has_permission(self, request, view):
+        return request.user and request.user.role == 'admin'
+
 # Manage Users: Retrieve all of the platform
 class ManageUsersView(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsAdminUser]
 
     def get(self, request):
         try:
