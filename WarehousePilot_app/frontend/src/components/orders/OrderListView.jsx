@@ -1,158 +1,169 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import { DataGrid } from '@mui/x-data-grid';
-import { Typography, CircularProgress, Box, TextField } from '@mui/material';
-import Sidebar from "../dashboard_sidebar/Sidebar";
-import Header from "../dashboard_sidebar/Header";
-import axios from 'axios'; // Make sure axios is imported
+import React, { useState, useEffect, useMemo } from 'react';
+import {
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+  Input,
+  Pagination,
+} from '@nextui-org/react';
+import { SearchIcon } from '@nextui-org/shared-icons';
+import axios from 'axios';
+import Sidebar from '../dashboard_sidebar/Sidebar';
+import Header from '../dashboard_sidebar/Header';
 
 const OrderListView = () => {
-  const [isSidebarOpen, setSidebarOpen] = useState(false); // Sidebar state
-  const [userData, setUserData] = useState(null); // User data state
-  const [rows, setRows] = useState([]); // Rows data for DataGrid
-  const [filteredRows, setFilteredRows] = useState([]); // Filtered rows state
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState(null); // Error handling
-  const [searchText, setSearchText] = useState(""); // Search input state
-  const navigate = useNavigate();
+  const [filterValue, setFilterValue] = useState("");
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [userData, setUserData] = useState(null);
 
+  const rowsPerPage = 10;
+
+  // Fetch orders on mount
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          setError('No authorization token found');
+          setLoading(false);
+          return;
+        }
+
+        const response = await axios.get('http://127.0.0.1:8000/orders/ordersview/', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        // Transform the response data into the shape you need
+        setRows(
+          response.data.map((row, index) => ({
+            id: index + 1, // Provide a unique ID for the table
+            order_id: row.order_id,
+            estimated_duration: row.estimated_duration,
+            status: row.status,
+            due_date: row.due_date,
+          }))
+        );
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching orders:', err);
+        setError('Failed to fetch orders');
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  // Filter rows by search string
+  const filteredRows = useMemo(() => {
+    if (!filterValue.trim()) return rows;
+
+    const searchTerm = filterValue.toLowerCase();
+    return rows.filter((row) => {
+      const orderIdMatch = row.order_id?.toString().toLowerCase().includes(searchTerm);
+      const durationMatch = row.estimated_duration?.toString().toLowerCase().includes(searchTerm);
+      const statusMatch = row.status?.toLowerCase().includes(searchTerm);
+      const dueDateMatch = row.due_date?.toLowerCase().includes(searchTerm);
+      return orderIdMatch || durationMatch || statusMatch || dueDateMatch;
+    });
+  }, [rows, filterValue]);
+
+  // Implement pagination on filtered rows
+  const paginatedRows = useMemo(() => {
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    return filteredRows.slice(start, end);
+  }, [page, rowsPerPage, filteredRows]);
+
+  // Calculate total pages
+  const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+
+  // Toggle sidebar
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
   };
 
-  // Define columns here
-  const columns = [
-    { field: 'order_id', headerName: 'Order ID', width: 150 },
-    { field: 'estimated_duration', headerName: 'Estimated Duration', width: 150 },
-    { field: 'status', headerName: 'Status', width: 200 },
-    { field: 'due_date', headerName: 'Due Date', width: 200 },
-  ];
-
-  // Retrieve the current user's data
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const token = localStorage.getItem('token');
-      if (token) {
-        try {
-          const response = await axios.get('http://127.0.0.1:8000/auth/profile/', {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          setUserData(response.data);
-        } catch (error) {
-          console.error('Error fetching user data:', error);
-        }
-      }
-    };
-    fetchUserData();
-  }, []);
-
-  // Check that the user is an admin or redirect to the correct dashboard
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      const parsedUser = JSON.parse(user);
-      if (parsedUser.role !== "admin") {
-        // Navigate to the correct dashboard based on role
-        if (parsedUser.role === "manager") {
-          navigate("/manager_dashboard");
-        } else {
-          navigate("/dashboard");
-        }
-      }
-    } else {
-      alert("Not logged in");
-      navigate("/");
-    }
-  }, [navigate]);
-
-  // Fetch order data from the backend
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setError('Authorization token is missing');
-      setLoading(false);
-      return;
-    }
-
-    fetch('http://127.0.0.1:8000/orders/ordersview/', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (Array.isArray(data)) {
-          setRows(data.map(order => ({
-            id: order.order_id, // Unique id for each row (required by DataGrid)
-            order_id: order.order_id,
-            estimated_duration: order.estimated_duration,
-            status: order.status,
-            due_date: order.due_date,
-          })));
-        } else {
-          setError('Failed to fetch valid data');
-        }
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Failed to fetch order data:', error);
-        setError('Failed to load data');
-        setLoading(false);
-      });
-  }, []);
-
-  // Filter rows based on search text
-  useEffect(() => {
-    const filteredData = rows.filter(row => {
-      return row.order_id.toString().includes(searchText) ||
-             row.status?.toLowerCase().includes(searchText.toLowerCase()) ||
-             row.estimated_duration?.toLowerCase().includes(searchText.toLowerCase()) ||
-             row.due_date?.toLowerCase().includes(searchText.toLowerCase());
-    });
-    setFilteredRows(filteredData);
-  }, [searchText, rows]);
-
   return (
     <div className="flex h-full">
       <Sidebar userData={userData} isOpen={isSidebarOpen} />
-      
+
       <div className="flex-1 sm:ml-64">
-        {/* Header */}
         <Header userData={userData} toggleSidebar={toggleSidebar} />
 
-        <Box mt={10} display="flex" flexDirection="column" alignItems="center">
-          <Typography variant="h6">View Orders</Typography>
-          
-          {/* Search Bar */}
-          <TextField
-            label="Search Orders"
-            variant="outlined"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            margin="normal"
-          />
+        <div className="mt-16 p-8">
+          <h1 className="text-2xl font-bold mb-6">Orders</h1>
+
+          {/* Smaller Search Input */}
+          <div className="mb-6 flex items-center gap-2">
+            <Input
+              size="md" // or "sm"
+              placeholder="Search orders"
+              value={filterValue}
+              onChange={(e) => setFilterValue(e.target.value)}
+              endContent={<SearchIcon className="text-default-400" width={16} />}
+              // Set a custom width or remove css prop for default sizing
+              css={{ width: '300px' }} 
+            />
+          </div>
 
           {loading ? (
-            <CircularProgress />
+            <div className="flex justify-center items-center h-64">
+              <div>Loading...</div>
+            </div>
           ) : error ? (
-            <Typography variant="body1" color="error">{error}</Typography>
+            <div className="text-red-500">{error}</div>
           ) : (
-            <DataGrid
-              rows={filteredRows}  // Use filtered rows
-              columns={columns} // Ensure columns are defined correctly
-              pageSize={25}
-              rowsPerPageOptions={[10, 25, 50]}
-              pagination
-              paginationMode="client"
-            />
+            <>
+              <Table
+                aria-label="Order list"
+                shadow
+                css={{ height: 'auto', minWidth: '100%' }}
+              >
+                <TableHeader>
+                  <TableColumn>Order ID</TableColumn>
+                  <TableColumn>Estimated Duration</TableColumn>
+                  <TableColumn>Status</TableColumn>
+                  <TableColumn>Due Date</TableColumn>
+                </TableHeader>
+                <TableBody items={paginatedRows}>
+                  {(item) => (
+                    <TableRow key={item.id}>
+                      <TableCell>{item.order_id}</TableCell>
+                      <TableCell>{item.estimated_duration}</TableCell>
+                      <TableCell>{item.status}</TableCell>
+                      <TableCell>{item.due_date}</TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+
+              <div className="flex justify-between items-center mt-4">
+                <span>
+                  Page {page} of {totalPages}
+                </span>
+                <Pagination
+                  total={totalPages}
+                  initialPage={1}
+                  current={page}
+                  onChange={(newPage) => setPage(newPage)}
+                />
+              </div>
+            </>
           )}
-        </Box>
+        </div>
       </div>
     </div>
   );
 };
 
 export default OrderListView;
-
-
