@@ -49,7 +49,7 @@ const fetchNotifications = async () => {
   }));
 };
 
-export default function NotifCard(props: CardProps) {
+export default function NotifCard(props: CardProps & { onMarkAllAsRead?: () => void }) {
   const [activeTab, setActiveTab] = React.useState<NotificationTabs>(NotificationTabs.All);
   const [lowStockNotifications, setLowStockNotifications] = useState<Notification[]>([]);
   const [archivedNotifications, setArchivedNotifications] = useState<Notification[]>([]);
@@ -58,8 +58,14 @@ export default function NotifCard(props: CardProps) {
   useEffect(() => {
     const loadLowStockNotifications = async () => {
       try {
-        const data = await fetchNotifications();
-        setLowStockNotifications(data);
+        const storedNotifications = localStorage.getItem("lowStockNotifications");
+        if (storedNotifications) {
+          setLowStockNotifications(JSON.parse(storedNotifications));
+        } else {
+          const data = await fetchNotifications();
+          setLowStockNotifications(data);
+          localStorage.setItem("lowStockNotifications", JSON.stringify(data));
+        }
       } catch (error) {
         console.error("Error fetching low stock notifications:", error);
       }
@@ -69,22 +75,34 @@ export default function NotifCard(props: CardProps) {
   }, []);
 
   const markAllAsRead = () => {
-    setLowStockNotifications((prevNotifications) =>
-      prevNotifications.map((notification) => ({ ...notification, isRead: true }))
-    );
+    setLowStockNotifications((prevNotifications) => {
+      const updatedNotifications = prevNotifications.map((notification) => ({ ...notification, isRead: true }));
+      localStorage.setItem("lowStockNotifications", JSON.stringify(updatedNotifications));
+      if (props.onMarkAllAsRead) {
+        props.onMarkAllAsRead();
+      }
+      return updatedNotifications;
+    });
   };
 
   const markAsRead = (id: string) => {
-    setLowStockNotifications((prevNotifications) =>
-      prevNotifications.map((notification) =>
+    setLowStockNotifications((prevNotifications) => {
+      const updatedNotifications = prevNotifications.map((notification) =>
         notification.id === id ? { ...notification, isRead: true } : notification
-      )
-    );
+      );
+      localStorage.setItem("lowStockNotifications", JSON.stringify(updatedNotifications));
+      return updatedNotifications;
+    });
   };
 
   const archiveAll = () => {
-    setArchivedNotifications((prevArchived) => [...prevArchived, ...lowStockNotifications]);
+    setArchivedNotifications((prevArchived) => {
+      const updatedArchived = [...prevArchived, ...lowStockNotifications];
+      localStorage.setItem("archivedNotifications", JSON.stringify(updatedArchived));
+      return updatedArchived;
+    });
     setLowStockNotifications([]);
+    localStorage.removeItem("lowStockNotifications");
   };
 
   const allNotifications = lowStockNotifications;

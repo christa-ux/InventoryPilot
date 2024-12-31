@@ -25,6 +25,7 @@ import {
   PopoverTrigger,
   PopoverContent,
   Chip,
+  Badge,
 } from "@nextui-org/react";
 import {SearchIcon} from "@nextui-org/shared-icons";
 import React, {useMemo, useRef, useCallback, useState, useEffect} from "react";
@@ -55,6 +56,10 @@ export default function InventoryTable() {
   });
   const [inventory, setInventory] = useState<Inventory[]>([]);
   const [loading, setLoading] = useState(true);
+  const [unreadNotifications, setUnreadNotifications] = useState(() => {
+    const savedStatus = localStorage.getItem("unreadNotifications");
+    return savedStatus ? JSON.parse(savedStatus) : true;
+  }); // Initialize state from local storage
 
   useEffect(() => {
     const loadInventory = async () => {
@@ -222,6 +227,11 @@ export default function InventoryTable() {
     }
   });
 
+  const handleNotificationsRead = () => {
+    setUnreadNotifications(false);
+    localStorage.setItem("unreadNotifications", JSON.stringify(false)); // Save to local storage
+  };
+
   const topContent = useMemo(() => {
     return (
       <div className="flex items-center gap-4 overflow-auto px-[6px] py-[4px]">
@@ -357,11 +367,13 @@ export default function InventoryTable() {
           <Popover>
             <PopoverTrigger>
               <Button isIconOnly variant="flat">
-                <Icon icon="solar:bell-outline" width={24} />
+                <Badge color="danger" content=" " shape="circle" isInvisible={!unreadNotifications}>
+                  <Icon icon="solar:bell-outline" width={24} />
+                </Badge>
               </Button>
             </PopoverTrigger>
             <PopoverContent>
-              <NotifCard/>
+              <NotifCard onMarkAllAsRead={handleNotificationsRead} />
             </PopoverContent>
           </Popover>
           <Button color="primary" endContent={<Icon icon="solar:add-circle-bold" width={20} />}>
@@ -370,7 +382,7 @@ export default function InventoryTable() {
         </div>
       </div>
     );
-  }, [inventory.length]);
+  }, [inventory.length, unreadNotifications]);
 
   const bottomContent = useMemo(() => {
     return (
