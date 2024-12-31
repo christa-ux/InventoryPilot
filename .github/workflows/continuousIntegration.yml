@@ -27,7 +27,7 @@ jobs:
 
       - name: Install backend dependencies
         run: |
-          cd backend
+          cd WarehousePilot_app/backend
           pip install -r requirements.txt
           python manage.py collectstatic --no-input
  
@@ -38,7 +38,7 @@ jobs:
         env:
           DATABASE_URL: "postgres://${{ secrets.DATABASE_USER }}:${{ secrets.DATABASE_PASSWORD }}@localhost:5432/${{ secrets.DATABASE_NAME }}"
         run: |
-          cd backend
+          cd WarehousePilot_app/backend
           python manage.py migrate
           python manage.py test --settings=your_project.settings.test 
  
@@ -49,12 +49,12 @@ jobs:
  
       - name: Install frontend dependencies
         run: |
-          cd frontend
+          cd WarehousePilot_app/frontend
           npm install
  
       - name: Run frontend tests
         run: |
-          cd frontend
+          cd WarehousePilot_app/frontend
           npm test -- --coverage
       
       - name: Cache node modules
