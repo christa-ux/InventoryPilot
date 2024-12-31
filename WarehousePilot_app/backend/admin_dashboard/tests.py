@@ -10,6 +10,8 @@ from .serializers import StaffSerializer
 User = get_user_model()
 
 class ManageUsersViewTest(TestCase):
+
+    # setUp(): Set up objects to be used in the tests
     def setUp(self):
         self.admin_user = users.objects.create_user(
             first_name='Test',
@@ -33,12 +35,22 @@ class ManageUsersViewTest(TestCase):
             role='user'
         )
 
-        # link to manage users feature
         self.manage_users_url = reverse('manage_users')
 
-        # create API client
         self.client = APIClient()
 
-        # create token for admin user
         refresh = RefreshToken.for_user(self.admin_user)
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
+
+    # test_user_authorization_success(): Check if an admin 
+    def test_user_authorization_success(self):
+        # Arrange
+        staff_data = users.objects.all()
+        serializer = StaffSerializer(staff_data, many=True)
+
+        # Act
+        response = self.client.get(self.manage_users_url)
+
+        # Assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK) # check if authorized to be on this page
+        self.assertEqual(response.data, serializer.data) # check if page retrieves all entries from the database
