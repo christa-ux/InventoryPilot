@@ -44,6 +44,9 @@ import {useMemoizedCallback} from "./use-memoized-callback";
 
 import {columns, INITIAL_VISIBLE_COLUMNS, fetchInventoryData, statusColorMap, deleteInventoryItems} from "./data";
 import NotifCard from "../notifications/notifications-card/App";
+import { AddItemForm } from "./add-item-form";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function InventoryTable() {
   const [filterValue, setFilterValue] = useState("");
@@ -61,6 +64,7 @@ export default function InventoryTable() {
     const savedStatus = localStorage.getItem("unreadNotifications");
     return savedStatus ? JSON.parse(savedStatus) : true;
   }); 
+  const [isAddItemPopoverOpen, setIsAddItemPopoverOpen] = useState(false);
 
   useEffect(() => {
     const loadInventory = async () => {
@@ -419,13 +423,22 @@ export default function InventoryTable() {
               <NotifCard onMarkAllAsRead={handleNotificationsRead} />
             </PopoverContent>
           </Popover>
-          <Button color="primary" endContent={<Icon icon="solar:add-circle-bold" width={20} />}>
-            Add Item
-          </Button>
+          <Popover isOpen={isAddItemPopoverOpen} onOpenChange={setIsAddItemPopoverOpen}>
+            <PopoverTrigger>
+              <Button color="primary" endContent={<Icon icon="solar:add-circle-bold" width={20} />}>
+                Add Item
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
+            <AddItemForm onAddItem={(newItem) => {
+                setInventory((prevInventory) => [...prevInventory, newItem]);
+                setIsAddItemPopoverOpen(false);
+              }} onCancel={() => setIsAddItemPopoverOpen(false)} />            </PopoverContent>
+          </Popover>
         </div>
       </div>
     );
-  }, [inventory.length, unreadNotifications]);
+  }, [inventory.length, unreadNotifications, isAddItemPopoverOpen]);
 
   const bottomContent = useMemo(() => {
     return (
@@ -502,6 +515,7 @@ export default function InventoryTable() {
           )}
         </TableBody>
       </Table>
+      <ToastContainer />
     </div>
   );
 }

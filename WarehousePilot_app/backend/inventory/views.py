@@ -1,3 +1,4 @@
+import logging
 from django.http import JsonResponse
 from .models import Inventory
 from django.core.mail import send_mail
@@ -5,6 +6,8 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.middleware.csrf import get_token
+
+logger = logging.getLogger(__name__)
 
 # def send_alert(item):
 #     send_mail(
@@ -45,6 +48,23 @@ def delete_inventory_items(request):
         Inventory.objects.filter(inventory_id__in=item_ids).delete()
         return JsonResponse({"message": "Items deleted successfully"}, status=200)
     except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
+@csrf_exempt
+@require_POST
+def add_inventory_item(request):
+    try:
+        data = json.loads(request.body)
+        new_item = Inventory.objects.create(
+            location=data["location"],
+            sku_color_id=data["sku_color_id"],
+            qty=data["qty"],
+            warehouse_number=data["warehouse_number"],
+            amount_needed=data["amount_needed"],
+        )
+        return JsonResponse({"message": "Item added successfully", "item": new_item.inventory_id}, status=201)
+    except Exception as e:
+        logger.error("Failed to add inventory item: %s", str(e))
         return JsonResponse({"error": str(e)}, status=500)
 
 def get_csrf_token(request):
