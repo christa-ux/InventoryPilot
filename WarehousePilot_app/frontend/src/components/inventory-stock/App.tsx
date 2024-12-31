@@ -31,6 +31,7 @@ import {SearchIcon} from "@nextui-org/shared-icons";
 import React, {useMemo, useRef, useCallback, useState, useEffect} from "react";
 import {Icon} from "@iconify/react";
 import {cn} from "@nextui-org/react";
+import { saveAs } from 'file-saver';
 
 import {CopyText} from "./copy-text";
 import {EyeFilledIcon} from "./eye";
@@ -59,7 +60,7 @@ export default function InventoryTable() {
   const [unreadNotifications, setUnreadNotifications] = useState(() => {
     const savedStatus = localStorage.getItem("unreadNotifications");
     return savedStatus ? JSON.parse(savedStatus) : true;
-  }); // Initialize state from local storage
+  }); 
 
   useEffect(() => {
     const loadInventory = async () => {
@@ -232,6 +233,25 @@ export default function InventoryTable() {
     localStorage.setItem("unreadNotifications", JSON.stringify(false)); // Save to local storage
   };
 
+  const exportData = () => {
+    const selectedItems = inventory.filter(item => filterSelectedKeys !== "all" && filterSelectedKeys.has(String(item.inventory_id)));
+    const csvContent = [
+      ["Inventory ID", "SKU Color ID", "Location", "Quantity", "Warehouse Number", "Amount Needed", "Status"],
+      ...selectedItems.map(item => [
+        item.inventory_id,
+        item.sku_color_id,
+        item.location,
+        item.qty,
+        item.warehouse_number,
+        item.amount_needed,
+        item.status
+      ])
+    ].map(e => e.join(",")).join("\n");
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, 'inventory_data.csv');
+  };
+
   const topContent = useMemo(() => {
     return (
       <div className="flex items-center gap-4 overflow-auto px-[6px] py-[4px]">
@@ -333,9 +353,8 @@ export default function InventoryTable() {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Selected Actions">
-                <DropdownItem key="export-data">Export Data</DropdownItem>
+                <DropdownItem key="export-data" onPress={exportData}>Export Data</DropdownItem>
                 <DropdownItem key="delete-items">Delete Items</DropdownItem>
-                <DropdownItem key="move-to-warehouse">Move to Warehouse</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           )}
@@ -350,6 +369,7 @@ export default function InventoryTable() {
     sortDescriptor,
     onSearchChange,
     setVisibleColumns,
+    exportData
   ]);
 
   const topBar = useMemo(() => {
