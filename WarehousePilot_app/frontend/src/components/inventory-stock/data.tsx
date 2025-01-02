@@ -64,8 +64,35 @@ export const fetchInventoryData = async (): Promise<Inventory[]> => {
     throw new Error("Failed to fetch inventory data");
   }
   const data = await response.json();
-  return data.map((item: any) => ({
+  if (!Array.isArray(data.inventory)) {
+    throw new Error("Invalid inventory data format");
+  }
+  return data.inventory.map((item: any) => ({
     ...item,
     status: item.status as StatusOptions,
   }));
+};
+
+export const getCsrfToken = async (): Promise<string> => {
+  const response = await fetch("http://127.0.0.1:8000/inventory/csrf-token");
+  if (!response.ok) {
+    throw new Error("Failed to fetch CSRF token");
+  }
+  const data = await response.json();
+  return data.csrfToken;
+};
+
+export const deleteInventoryItems = async (itemIds: number[]): Promise<void> => {
+  const csrfToken = await getCsrfToken();
+  const response = await fetch("http://127.0.0.1:8000/inventory/delete", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": csrfToken,
+    },
+    body: JSON.stringify({ item_ids: itemIds }),
+  });
+  if (!response.ok) {
+    throw new Error("Failed to delete inventory items");
+  }
 };
