@@ -1,49 +1,43 @@
-import {Icon} from "@iconify/react";
+import React from 'react';
+import { Icon } from "@iconify/react";
 
-import {type SidebarItem} from "./sidebar";
-
-export const items: SidebarItem[] = [
+const sidebarItems = [
   {
-    key: "dashboard",
-    href: "/dashboard",
-    icon: "solar:home-2-linear",
-    title: "Dashboard",
+    name: 'Dashboard',
+    path: '/dashboard',
+    icon: <Icon icon="solar:home-2-linear" />,
   },
   {
-    key: "kpi",
-    href: "/kpi", // Ensure this href matches the route path
-    icon: "solar:chart-outline",
-    title: "KPI",
+    name: 'KPI',
+    path: '/kpi',
+    icon: <Icon icon="solar:chart-outline" />,
   },
   {
-    key: "requests",
-    href: "#",
-    icon: "solar:clipboard-list-linear",
-    title: "Requests",
+    name: 'Requests',
+    path: '#',
+    icon: <Icon icon="solar:clipboard-list-linear" />,
   },
   {
-    key: "production_plan",
-    href: "#",
-    icon: "solar:calendar-outline",
-    title: "Production Plan",
+    name: 'Production Plan',
+    path: '#',
+    icon: <Icon icon="solar:calendar-outline" />,
   },
   {
-    key: "shop_floor",
-    href: "#",
-    icon: "solar:bill-list-outline",
-    title: "Shop Floor",
+    name: 'Shop Floor',
+    path: '#',
+    icon: <Icon icon="solar:bill-list-outline" />,
   },
   {
-    key: "inventory",
-    href: "/inventory-stock",
-    icon: "solar:box-outline",
-    title: "Inventory",
+    name: 'Inventory',
+    path: '/inventory-stock',
+    icon: <Icon icon="solar:box-outline" />,
   },
   {
-    key: "account_management",
-    href: "/account_management",
-    icon: "solar:user-outline",
-    title: "Account Management",
+    name: 'Account Management',
+    path: '/account_management',
+    icon: <Icon icon="solar:user-outline" />,
   },
 ];
+
+export default sidebarItems;
 
