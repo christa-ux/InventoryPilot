@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Sidebar from "../dashboard_sidebar/Sidebar";
+// import Sidebar from "../dashboard_sidebar/Sidebar";
 import Header from "../dashboard_sidebar/Header";
 import UsersTable from "./UsersTable";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+
+import SideBar from "../dashboard_sidebar1/App";
 
 export default function ManageUsersPage() {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -55,16 +57,14 @@ export default function ManageUsersPage() {
     }, [navigate]);
 
     return (
-        <div className="flex h-full">
-            {/* Sidebar */}
-            <Sidebar userData={userData} isOpen={isSidebarOpen} />
+        <div className="h-full">
 
             {/* Main Content */}
-            <div className="flex-1 sm:ml-64 ">
-                {/* Header */}
-                <Header userData={userData} toggleSidebar={toggleSidebar} />
+            <div className="flex-1 ">
+                <SideBar />
+    
 
-                <main className="flex p-6 bg-gray-100 h-screen justify-center mt-11">
+                <main className="flex p-6 h-screen justify-center ">
                     {/* Cards Container */}
                     <div className="flex flex-col m-auto w-full max-w-7xl">
                         <Box

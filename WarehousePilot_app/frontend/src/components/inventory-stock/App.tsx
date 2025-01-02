@@ -1,5 +1,6 @@
 "use client";
 
+import SideBar from "../dashboard_sidebar1/App"; 
 import type {Selection, SortDescriptor} from "@nextui-org/react";
 import type {ColumnsKey, Inventory, StatusOptions} from "./data";
 import type {Key} from "@react-types/shared";
@@ -34,7 +35,7 @@ import {cn} from "@nextui-org/react";
 import { saveAs } from 'file-saver';
 
 import {CopyText} from "./copy-text";
-import {EyeFilledIcon} from "./eye";
+import {EyeFilledIcon}from "./eye";
 import {EditLinearIcon} from "./edit";
 import {DeleteFilledIcon} from "./delete";
 import {ArrowDownIcon} from "./arrow-down";
@@ -415,7 +416,7 @@ export default function InventoryTable() {
 
   const topBar = useMemo(() => {
     return (
-      <div className="mb-[18px] flex items-center justify-between">
+      <div className="mb-[18px] flex items-center justify-between" style={{ marginTop: "40px" }}>
         <div className="flex w-[226px] items-center gap-2">
           <h1 className="text-2xl font-[700] leading-[32px]">
             <b>Inventory</b>
@@ -491,46 +492,49 @@ export default function InventoryTable() {
   }
 
   return (
-    <div className="h-full w-full p-6" style={{ padding: "40px" }}>
-      {topBar}
-      <Table
-        isHeaderSticky
-        aria-label="Example table with custom cells, pagination and sorting"
-        bottomContent={bottomContent}
-        bottomContentPlacement="outside"
-        classNames={{
-          td: "before:bg-transparent",
-        }}
-        selectedKeys={filterSelectedKeys}
-        selectionMode="multiple"
-        sortDescriptor={sortDescriptor}
-        topContent={topContent}
-        topContentPlacement="outside"
-        onSelectionChange={onSelectionChange}
-        onSortChange={setSortDescriptor}
-      >
-        <TableHeader columns={headerColumns}>
-          {(column) => (
-            <TableColumn
-              key={column.uid}
-              align={column.uid === "actions" ? "end" : "start"}
-              className={cn([
-                column.uid === "actions" ? "flex items-center justify-end px-[20px]" : "",
-              ])}
-            >
-              {column.name}
-            </TableColumn>
-          )}
-        </TableHeader>
-        <TableBody emptyContent={"No items found"} items={paginatedItems}>
-          {(item) => (
-            <TableRow key={item.inventory_id}>
-              {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-      <ToastContainer />
+    <div className="flex h-dvh w-full">
+      <SideBar /> {/* Add the SideBar component here */}
+      <div className="flex-1 p-6" style={{ padding: "40px" }}>
+        {topBar}
+        <Table
+          isHeaderSticky
+          aria-label="Example table with custom cells, pagination and sorting"
+          bottomContent={bottomContent}
+          bottomContentPlacement="outside"
+          classNames={{
+            td: "before:bg-transparent",
+          }}
+          selectedKeys={filterSelectedKeys}
+          selectionMode="multiple"
+          sortDescriptor={sortDescriptor}
+          topContent={topContent}
+          topContentPlacement="outside"
+          onSelectionChange={onSelectionChange}
+          onSortChange={setSortDescriptor}
+        >
+          <TableHeader columns={headerColumns}>
+            {(column) => (
+              <TableColumn
+                key={column.uid}
+                align={column.uid === "actions" ? "end" : "start"}
+                className={cn([
+                  column.uid === "actions" ? "flex items-center justify-end px-[20px]" : "",
+                ])}
+              >
+                {column.name}
+              </TableColumn>
+            )}
+          </TableHeader>
+          <TableBody emptyContent={"No items found"} items={paginatedItems}>
+            {(item) => (
+              <TableRow key={item.inventory_id}>
+                {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+        <ToastContainer />
+      </div>
     </div>
   );
 }
