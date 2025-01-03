@@ -3,6 +3,109 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from .models import users
 
+
+class AddUserTests(APITestCase):
+    def setUp(self):
+        # Create a user who will perform the add operations
+        self.admin_user = users.objects.create_user(
+            username='adminuser',
+            email='adminuser@example.com',
+            password='adminpassword',
+            role='admin',
+            dob='1980-08-08',
+            first_name='Admin',
+            last_name='User',
+            department='Administration',
+        )
+        # Log in to get an access token
+        self.login_url = reverse('login')
+        login_data = {
+            'username': 'adminuser',
+            'password': 'adminpassword'
+        }
+        response = self.client.post(self.login_url, login_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK, "Login failed in setUp.")
+        self.access_token = response.data.get('access')
+
+        # Set up the URL for adding users
+        self.add_user_url = reverse('add_user')
+
+    def test_add_user_success(self):
+        """
+        Ensure that an authenticated user can add a new user successfully.
+        """
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
+        user_data = {
+            'username': 'newuser',
+            'password': 'newpassword123',
+            'email': 'newuser@example.com',
+            'role': 'user',
+            'first_name': 'New',
+            'last_name': 'User',
+            'department': 'Testing',
+            'dob': '1995-05-15'
+        }
+        response = self.client.post(self.add_user_url, user_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['message'], 'User created successfully')
+
+        # Verify that the user was added to the database
+        user = users.objects.get(email='newuser@example.com')
+        self.assertEqual(user.username, 'newuser')
+        self.assertEqual(user.role, 'user')
+
+    def test_add_user_duplicate_email(self):
+        """
+        Ensure that adding a user with an existing email fails.
+        """
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
+        user_data = {
+            'username': 'anotheruser',
+            'password': 'anotherpassword123',
+            'email': 'adminuser@example.com',  # Duplicate email
+            'role': 'user',
+            'first_name': 'Another',
+            'last_name': 'User',
+            'department': 'Testing',
+            'dob': '1990-05-15'
+        }
+        response = self.client.post(self.add_user_url, user_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['error'], 'User with this email already exists')
+
+    def test_add_user_missing_fields(self):
+        """
+        Ensure that missing required fields result in a 400 error.
+        """
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
+        incomplete_data = {
+            'username': 'incompleteuser',
+            # Missing password, email, and other required fields
+        }
+        response = self.client.post(self.add_user_url, incomplete_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_500_INTERNAL_SERVER_ERROR)
+        self.assertIn('error', response.data)
+
+    def test_add_user_unauthenticated(self):
+        """
+        Ensure that an unauthenticated user cannot add a new user.
+        """
+        user_data = {
+            'username': 'unauthuser',
+            'password': 'unauthpassword123',
+            'email': 'unauthuser@example.com',
+            'role': 'user',
+            'first_name': 'Unauth',
+            'last_name': 'User',
+            'department': 'Testing',
+            'dob': '2000-01-01'
+        }
+        response = self.client.post(self.add_user_url, user_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+
+
 class EditUserTests(APITestCase):
     def setUp(self):
         # Create a user who will perform the edit operations
