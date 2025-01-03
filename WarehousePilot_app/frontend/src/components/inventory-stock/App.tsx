@@ -49,6 +49,8 @@ import { AddItemForm } from "./add-item-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import NavBar from "../navbar/App";
+
 export default function InventoryTable() {
   const [filterValue, setFilterValue] = useState("");
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
@@ -493,6 +495,7 @@ export default function InventoryTable() {
 
   return (
     <div className="flex h-dvh w-full">
+      <NavBar />
       <SideBar /> {/* Add the SideBar component here */}
       <div className="flex-1 p-6" style={{ padding: "40px" }}>
         {topBar}

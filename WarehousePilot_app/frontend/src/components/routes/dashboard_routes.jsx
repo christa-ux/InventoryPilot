@@ -5,6 +5,7 @@ import InventoryTable from '../inventory-stock/App';
 import ManageUsersPage from '../admin_manage_users/ManageUsersPage';
 import AddUsersDashboard from '../dashboard/AddUsersDashboard';
 import NotifCard from '../notifications/notifications-card/App';
+import NavBar from '../navbar/App';
 
 
 export const dashboard_routes = [
@@ -18,4 +19,5 @@ export const dashboard_routes = [
   { path: '/change_password', element: <ChangePassword /> },
   { path: '/inventory-stock', element: <InventoryTable /> },
   {path: '/admin_dashboard/add_users', element: <AddUsersDashboard />},
+  { path: '/navbar', element: <NavBar /> },
 ];
