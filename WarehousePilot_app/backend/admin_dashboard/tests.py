@@ -64,5 +64,5 @@ class ManageUsersViewTest(TestCase):
         response = self.client.get(self.manage_users_url)
 
         # Assert
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-        self.assertEqual(response.data, {'detail': 'You do not have permission to perform this action.'})
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN) # check if user was not authorized
+        self.assertEqual(response.data, {'detail': 'You do not have permission to perform this action.'}) # checking that only data retrieved was the error message
