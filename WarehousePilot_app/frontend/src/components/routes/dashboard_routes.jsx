@@ -19,6 +19,6 @@ export const dashboard_routes = [
   { path: '/inventory-stock', element: <Component /> },
   {path: '/admin_dashboard/add_users', element: <AddUsersDashboard />},
   {path: '/admin_dashboard/edit_user/:user_id', element: <AddUsersDashboard />},
+  { path: '/admin_dashboard/add_users', element: <AddUsersDashboard />},
   { path: '/orders', element: <OrderListView /> },
-
 ];

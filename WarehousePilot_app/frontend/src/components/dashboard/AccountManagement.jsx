@@ -54,13 +54,13 @@ function AccountManagement() {
         <p>This is the overview page.</p>
         {userData ? (
           <div>
-            <p>Username: {userData.username}</p>
-            <p>Email: {userData.email}</p>
-            <p>Role: {userData.role}</p>
-            <p>First Name: {userData.first_name}</p>
-            <p>Last Name: {userData.last_name}</p>
-            <p>Department: {userData.department}</p>
-          </div>
+            <p data-testid="username">Username: {userData.username}</p>
+            <p data-testid="email">Email: {userData.email}</p>
+            <p data-testid="role">Role: {userData.role}</p>
+            <p data-testid="first_name">First Name: {userData.first_name}</p>
+            <p data-testid="last_name">Last Name: {userData.last_name}</p>
+            <p data-testid="department">Department: {userData.department}</p>          
+            </div>
         ) : (
           <p>Error</p>
         )}
