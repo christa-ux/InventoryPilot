@@ -1,3 +1,5 @@
+# This page contains the units test for add , edit and delete user 
+
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
