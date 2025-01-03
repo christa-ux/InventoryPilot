@@ -1,73 +1,71 @@
-# # This is a basic workflow to help you get started with Actions
+name: Django and React CI/CD
 
-# name: Django and React CI/CD
+on:
+  push:
+    branches: [ "testing-branch" ]
+  pull_request:
+    branches: [ "testing-branch", "main" ]
 
-# # Controls when the workflow will run
-# on:
-#   # Triggers the workflow on push or pull request events but only for the "main" branch
-#   push:
-#     branches: [ "main" ]
-#   pull_request:
-#     branches: [ "main" ]
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+      DATABASE_USER: ${{ secrets.DATABASE_USER }}
+      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+      DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
+      DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
 
-#   # Allows you to run this workflow manually from the Actions tab
-#   # workflow_dispatch:
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-# # A workflow run is made up of one or more jobs that can run sequentially or in parallel
-# jobs:
-#   # This workflow contains a single job called "build"
-#   build:
-#     # The type of runner that the job will run on
-#     runs-on: ubuntu-latest
-#     services:
-#       mysql:
-#         image: mysql:latest
-#         ports:
-#           - 3306:3306
-#         # env:
-#         #   MYSQL_ROOT_PASSWORD: rootpassword
-#         #   MYSQL_USER: user
-#         #   MYSQL_PASSWORD: password
-#         #   MYSQL_DATABASE: test_db
-#         # options: >-
-#         #   --health-cmd="mysqladmin ping -h localhost"
-#         #   --health-interval=10s --health-timeout=5s --health-retries=5
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+           python-version: '3.10'
 
-
-#     # Steps represent a sequence of tasks that will be executed as part of the job
-#     steps:
-#       - name: Checkout code
-#       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-#       - uses: actions/checkout@v4
-
-#       - name: Set up Python
-#         uses: actions/setup-python@v4
-#         with:
-#           python-version: '3.9'
-
-#       # - name: Install backend dependencies
-#       #   run: |
-#       #     pip install -r requirements.txt
-#       #     python manage.py collectstatic --no-input
-  
-#       # - name: Wait for MySQL to be ready
-#       #   run: sleep 20
-  
-#       # - name: Run backend tests
-#       #   env:
-#       #     DATABASE_URL: "mysql://user:password@localhost:3306/test_db"
-#       #   run: python manage.py test
-  
-#       # - name: Set up Node.js
-#       #   uses: actions/setup-node@v3
-#       #   with:
-#       #     node-version: '16'
-  
-#       # - name: Install frontend dependencies
-#       #   run: npm install --prefix frontend
-  
-#       # - name: Run frontend build
-#       #   run: npm run build --prefix frontend
-  
-#       # - name: Deploy (optional)
-#       #   run: ./deploy_script.sh
+      - name: Install backend dependencies
+        run: |
+          cd WarehousePilot_app/backend
+          pip install -r requirements.txt
+      
+    #  - name: Run flake8
+    #    run: |
+    #      cd WarehousePilot_app/backend
+    #      pip install flake8
+    #      flake8 .
+ 
+      - name: Wait for PostgreSQL to be ready
+        run: sleep 10
+ 
+      - name: Run backend tests
+        env:
+          DATABASE_URL: "postgres://${{ secrets.DATABASE_USER }}:${{ secrets.DATABASE_PASSWORD }}@localhost:5432/${{ secrets.DATABASE_NAME }}"
+        run: |
+          cd WarehousePilot_app/backend
+          python manage.py migrate
+          python manage.py test --keepdb
+ 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+ 
+      - name: Install frontend dependencies
+        run: |
+          cd WarehousePilot_app/frontend
+          npm install
+ 
+      - name: Run frontend tests
+        run: |
+          cd WarehousePilot_app/frontend
+          npm test -- --coverage
+      
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-npm-
+ 

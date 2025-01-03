@@ -17,7 +17,6 @@ export const dashboard_routes = [
   { path: '/kpi', element: <KpiDashboard /> },
   { path: '/change_password', element: <ChangePassword /> },
   { path: '/inventory-stock', element: <Component /> },
-  {path: '/admin_dashboard/add_users', element: <AddUsersDashboard />},
+  { path: '/admin_dashboard/add_users', element: <AddUsersDashboard />},
   { path: '/orders', element: <OrderListView /> },
-
 ];
