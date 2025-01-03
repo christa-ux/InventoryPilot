@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Sidebar from "../dashboard_sidebar/Sidebar";
 import Header from "../dashboard_sidebar/Header";
-import AddUsers from "./AddUsers";
+import UserForm from "./UseForm";
 
 
 const AddUsersDashboard = ({ userData }) => {
@@ -26,7 +26,7 @@ const AddUsersDashboard = ({ userData }) => {
          
 
           
-           <AddUsers />
+           <UserForm />
          
         </main>
       </div>

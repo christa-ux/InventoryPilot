@@ -10,6 +10,7 @@ import Button from "@mui/material/Button";
 export default function ManageUsersPage() {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const [userData, setUserData] = useState(null);
+    const [staffAmount, setStaffAmount] = useState(0);
     const navigate = useNavigate();
 
     const toggleSidebar = () => {
@@ -79,9 +80,9 @@ export default function ManageUsersPage() {
                             <Button variant="contained" color="success" href="/admin_dashboard/add_users">
                                 Add new staff
                             </Button>
-                            <h2 className="text-lg font-bold">Total number of staff: {localStorage.getItem('staffAmount')}</h2>
+                            <h2 className="text-lg font-bold">Total number of staff: {staffAmount}</h2>
                         </Box>
-                        <UsersTable />
+                        <UsersTable onStaffCountChange={setStaffAmount} />
                     </div>
                 </main>
             </div>
