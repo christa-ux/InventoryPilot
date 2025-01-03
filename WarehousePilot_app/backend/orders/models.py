@@ -1,5 +1,6 @@
 from django.db import models
 from parts.models import Part
+
 # Create your models here.
 class Orders(models.Model):
     order_id = models.IntegerField(primary_key=True)
