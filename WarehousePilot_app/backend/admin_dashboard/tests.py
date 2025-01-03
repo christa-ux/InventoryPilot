@@ -127,69 +127,69 @@ class EditUserTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
-# class DeleteUserTests(APITestCase):
-#     def setUp(self):
-#         # Create a user who will perform the delete operations
-#         self.deleter_user = users.objects.create_user(
-#             username='deleteruser',
-#             email='deleteruser@example.com',
-#             password='deleterpassword',
-#             role='deleter',
-#             dob='1980-08-08',
-#             first_name='Deleter',
-#             last_name='User',
-#             department='Deleting',
-#         )
-#         # Create a user who will be the target of delete operations
-#         self.target_user = users.objects.create_user(
-#             username='targetuser',
-#             email='targetuser@example.com',
-#             password='targetpassword',
-#             role='user',
-#             dob='1990-01-01',
-#             first_name='Target',
-#             last_name='User',
-#             department='Targeting',
-#         )
-#         # Log in to get an access token
-#         self.login_url = reverse('login')
-#         login_data = {
-#             'username': 'deleteruser',
-#             'password': 'deleterpassword'
-#         }
-#         response = self.client.post(self.login_url, login_data, format='json')
-#         self.assertEqual(response.status_code, status.HTTP_200_OK, "Login failed in setUp.")
-#         self.access_token = response.data.get('access')
+class DeleteUserTests(APITestCase):
+    def setUp(self):
+        # Create a user who will perform the delete operations
+        self.deleter_user = users.objects.create_user(
+            username='deleteruser',
+            email='deleteruser@example.com',
+            password='deleterpassword',
+            role='deleter',
+            dob='1980-08-08',
+            first_name='Deleter',
+            last_name='User',
+            department='Deleting',
+        )
+        # Create a user who will be the target of delete operations
+        self.target_user = users.objects.create_user(
+            username='targetuser',
+            email='targetuser@example.com',
+            password='targetpassword',
+            role='user',
+            dob='1990-01-01',
+            first_name='Target',
+            last_name='User',
+            department='Targeting',
+        )
+        # Log in to get an access token
+        self.login_url = reverse('login')
+        login_data = {
+            'username': 'deleteruser',
+            'password': 'deleterpassword'
+        }
+        response = self.client.post(self.login_url, login_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK, "Login failed in setUp.")
+        self.access_token = response.data.get('access')
 
-#         # Set up the URLs for deleting
-#         self.delete_user_url = reverse('delete_user', kwargs={'user_id': self.target_user.user_id})
+        # Set up the URLs for deleting
+        self.delete_user_url = reverse('delete_user', kwargs={'user_id': self.target_user.user_id})
 
-#     def test_delete_user_success(self):
-#         """
-#         Ensure that an authenticated user can delete another user.
-#         """
-#         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
-#         response = self.client.delete(self.delete_user_url)
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#         self.assertEqual(response.data['message'], 'User deleted successfully')
+    def test_delete_user_success(self):
+        """
+        Ensure that an authenticated user can delete another user.
+        """
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
+        response = self.client.delete(self.delete_user_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['message'], 'User deleted successfully')
 
-#         # Verify that the user has been deleted
-#         with self.assertRaises(users.DoesNotExist):
-#             users.objects.get(user_id=self.target_user.user_id)
+        # Verify that the user has been deleted
+        with self.assertRaises(users.DoesNotExist):
+            users.objects.get(user_id=self.target_user.user_id)
 
-#     def test_delete_user_not_found(self):
-#         """
-#         Ensure that deleting a non-existent user returns a 404 error.
-#         """
-#         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
-#         url = reverse('delete_user', kwargs={'user_id': 9999})
-#         response = self.client.delete(url)
-#         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-#         self.assertEqual(response.data['error'], 'User not found')
+    def test_delete_user_not_found(self):
+        """
+        Ensure that deleting a non-existent user returns a 404 error.
+        """
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
+        url = reverse('delete_user', kwargs={'user_id': 9999})
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(response.data['error'], 'User not found')
 
-#     def test_delete_user_unauthenticated(self):
-#         """
-#         Ensure that an unauthenticated user cannot delete a user.
-#         """
-#         response = self.client.delete(self.delete_user_url)
-#         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+    def test_delete_user_unauthenticated(self):
+        """
+        Ensure that an unauthenticated user cannot delete a user.
+        """
+        response = self.client.delete(self.delete_user_url)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
