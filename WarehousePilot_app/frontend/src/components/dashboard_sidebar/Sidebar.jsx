@@ -101,6 +101,25 @@ const Sidebar = ({ isOpen }) => {
             </Link>
           </li>
 
+          {/* Orders Button (NEW) */}
+          <li>
+            <Link
+              to="/orders"
+              className="flex items-center p-2 text-gray-900 hover:bg-gray-100 rounded-lg dark:text-white dark:hover:bg-gray-700"
+            >
+              <svg
+                className="flex-shrink-0 w-5 h-5 mr-2 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M9 2a1 1 0 012 0v2h7a1 1 0 110 2h-1v9a2 2 0 01-2 2H5a2 2 0 01-2-2V6H2a1 1 0 110-2h7V2zM7 9a1 1 0 000 2h6a1 1 0 100-2H7zm0 4a1 1 0 000 2h6a1 1 0 100-2H7z" />
+              </svg>
+              Orders
+            </Link>
+          </li>
+
           <li>
             <Link
               to={dashboardPath}
