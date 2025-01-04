@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { useNavigate, useParams } from "react-router-dom";
-import Modal from "./Modal";
+import Modal from "../Modal";
 
 export default function UserForm() {
   const [username, setUsername] = useState("");

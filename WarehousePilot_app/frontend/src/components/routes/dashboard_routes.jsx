@@ -5,6 +5,8 @@ import Component from '../inventory-stock/App';
 import ManageUsersPage from '../admin_manage_users/ManageUsersPage';
 import AddUsersDashboard from '../dashboard/AddUsersDashboard';
 import OrderListView from '../orders/OrderListView'; 
+import InventoryPickList from '../orders/InventoryPickList';
+
 
 
 export const dashboard_routes = [
@@ -21,4 +23,5 @@ export const dashboard_routes = [
   {path: '/admin_dashboard/edit_user/:user_id', element: <AddUsersDashboard />},
   { path: '/admin_dashboard/add_users', element: <AddUsersDashboard />},
   { path: '/orders', element: <OrderListView /> },
+  { path: '/inventory_pick_list', element: <InventoryPickList /> },
 ];

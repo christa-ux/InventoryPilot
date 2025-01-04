@@ -15,10 +15,9 @@ import { Chip } from "@nextui-org/chip";
 import axios from "axios";
 import Sidebar from "../dashboard_sidebar/Sidebar";
 import Header from "../dashboard_sidebar/Header";
-import { Link } from 'react-router-dom'
-import Modal from "../Modal";
 
-const OrderListView = () => {
+
+const InventoryPickList = () => {
   const [filterValue, setFilterValue] = useState("");
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,7 +25,7 @@ const OrderListView = () => {
   const [page, setPage] = useState(1);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [userData, setUserData] = useState(null);
-  const [showModal, setShowModal] = useState(false);
+ 
 
   const rowsPerPage = 10;
 
@@ -73,18 +72,12 @@ const OrderListView = () => {
 
   // Handle "Start" action
   const handleStart = (orderId) => {
-    setShowModal(true);
-    // Update the status of the selected order
-    setRows((prevRows) =>
-      prevRows.map((row) =>
-        row.order_id === orderId ? { ...row, status: "in progress" } : row
-      )
-    );
-  
-    // Redirect to Inventory Picklist
-    navigate("/inventory_pick_list");
+
+
+
+    // For now, just log the ID. Replace with a real API call if needed.
+    console.log("Starting fulfillment for order:", orderId);
   };
-  
 
   // Filter rows by search text
   const filteredRows = useMemo(() => {
@@ -131,7 +124,7 @@ const OrderListView = () => {
           <div className="flex flex-row gap-11">
             <h1 className="text-2xl font-bold mb-6">Orders</h1>
             <Button color="primary" variant="flat">
-              Inventory picklist
+              Inventory picklist 
             </Button>
           </div>
           {/* Smaller Search Input */}
@@ -178,28 +171,22 @@ const OrderListView = () => {
                       <TableCell>
                         <Chip
                           className="capitalize"
-                          color={
-                            item.status === "in progress" ? "success" : "danger"
-                          }
+                          color="danger"
                           size="sm"
                           variant="flat"
                         >
-                          {item.status || "not started"}
+                          not started
                         </Chip>
                       </TableCell>
                       <TableCell>{item.due_date}</TableCell>
                       <TableCell>
-                        {item.status === "in progress" ? (
-                          <Link to='/inventory_pick_list'>See</Link>
-                        ) : (
-                          <Button
-                            color="primary"
-                            size="sm"
-                            onPress={() => handleStart(item.order_id)}
-                          >
-                            Start
-                          </Button>
-                        )}
+                        <Button
+                          color="primary"
+                          size="sm"
+                          onPress={() => handleStart(item.order_id)}
+                        >
+                          Start.... see
+                        </Button>
                       </TableCell>
                     </TableRow>
                   )}
@@ -217,19 +204,14 @@ const OrderListView = () => {
                   onChange={(newPage) => setPage(newPage)}
                 />
               </div>
-              {showModal && (
-                <Modal
-                  header="order"
-                  body={`order has been  added successfully.`}
-                  LinkTo="/inventory_pick_list"
-                />
-              )}
             </>
           )}
+          
         </div>
+
       </div>
     </div>
   );
 };
 
-export default OrderListView;
+export default InventoryPickList;
